@@ -6,41 +6,46 @@
 # Ignore everything by default
 *
 
-# ---- Allow Lean project files ----
+# ---- Allow build config ----
 !.gitignore
 !README.md
 !lakefile.toml
 !lean-toolchain
 !lake-manifest.json
-!FirstProof.lean
 
-# ---- Allow Lean source files ----
-!FirstProof/
-!FirstProof/*.lean
+# ---- 01: Problem statements ----
+!01_problems/
+!01_problems/*/
+!01_problems/*/problem.md
 
-# ---- Allow submissions (tex + pdf + md) ----
-!submissions/
-!submissions/*.tex
-!submissions/*.pdf
-!submissions/*.md
+# ---- 02: Proofs and transcripts ----
+!02_proofs/
+!02_proofs/*/
+!02_proofs/*/proof.md
+!02_proofs/*/transcript.md
 
-# ---- Allow problem docs (proof, transcript, problem only) ----
-!problems/
-!problems/*/
-!problems/*/proof.md
-!problems/*/transcript.md
-!problems/*/problem.md
+# ---- 03: Lean 4 source ----
+!03_lean/
+!03_lean/FirstProof.lean
+!03_lean/FirstProof/
+!03_lean/FirstProof/*.lean
+
+# ---- 04: Submission papers ----
+!04_papers/
+!04_papers/*.tex
+!04_papers/*.pdf
+!04_papers/*.md
+
+# ---- 05: Lean formalization paper ----
+!05_lean_formalization/
+!05_lean_formalization/*.tex
+!05_lean_formalization/*.pdf
 
 # ---- Allow shared docs ----
 !shared/
 !shared/*.md
 
-# ---- Allow GitHub CI ----
-!.github/
-!.github/workflows/
-!.github/workflows/*.yml
-
-# ---- Always exclude these even if unignored above ----
+# ---- Always exclude ----
 .DS_Store
 .lake/
 *.aux

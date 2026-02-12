@@ -16,3 +16,5 @@ rev = "v4.27.0"
 
 [[lean_lib]]
 name = "FirstProof"
+srcDir = "03_lean"
+roots = ["FirstProof"]
