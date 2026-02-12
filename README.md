@@ -1,72 +1,75 @@
-# First Proof — AI Challenge
+# First Proof — AI-Generated Mathematical Proofs
 
-Attempting the [1st Proof](https://1stproof.org/) research-level mathematics challenge.
-Paper: [arXiv:2602.05192](https://arxiv.org/abs/2602.05192)
+Solutions to the [1st Proof](https://1stproof.org/) challenge: ten research-level mathematics problems solved autonomously by AI (Claude Sonnet 4), with Lean 4 formal verification.
 
-## Deadline
+**Challenge paper:** [arXiv:2602.05192](https://arxiv.org/abs/2602.05192)
 
-**February 13, 2026 — 11:59pm Pacific Time** (solutions released after this)
+## Results
 
-## Status Tracker
+| # | Problem | Field | Answer | Paper |
+|---|---------|-------|--------|-------|
+| P01 | Φ⁴₃ measure equivalence | Stochastic PDE | **NO** — mutually singular | [PDF](04_papers/P01_paper.pdf) |
+| P02 | Rankin–Selberg test vector | Representation theory | **YES** — universal W exists | [PDF](04_papers/P02_paper.pdf) |
+| P03 | Markov chain / Macdonald | Combinatorics | **YES** — chain exists | [PDF](04_papers/P03_paper.pdf) |
+| P04 | Finite free Stam inequality | Free probability | **YES** for n≤3; **OPEN** n≥4 | [PDF](04_papers/P04_paper.pdf) |
+| P05 | Equivariant slice filtration | Algebraic topology | **YES** — geometric fixed points | [PDF](04_papers/P05_paper.pdf) |
+| P06 | ε-light subsets | Spectral graph theory | **Partial** — c=1/3 conditional | [PDF](04_papers/P06_paper.pdf) |
+| P07 | Lattice acyclicity | Lie groups | **NO** for δ=0 or d≤4 | [PDF](04_papers/P07_paper.pdf) |
+| P08 | Lagrangian smoothing | Symplectic geometry | **YES** — smoothing exists | [PDF](04_papers/P08_paper.pdf) |
+| P09 | Quadrilinear tensors | Multilinear algebra | **YES** — degree ≤ 4 | [PDF](04_papers/P09_paper.pdf) |
+| P10 | Preconditioned CG for CP | Numerical linear algebra | **YES** — cost bound proved | [PDF](04_papers/P10_paper.pdf) |
 
-| # | Problem | Domain | Status | Difficulty Est. |
-|---|---------|--------|--------|-----------------|
-| 1 | [Φ⁴₃ measure equivalence](problems/P01_stochastic_phi4/) | Stochastic Analysis | 🟢 Draft complete | ⭐⭐⭐⭐⭐ |
-| 2 | [Rankin–Selberg integrals](problems/P02_representation_rankin_selberg/) | Representation Theory | ⬜ Not started | ⭐⭐⭐⭐⭐ |
-| 3 | [Markov chain / Macdonald](problems/P03_combinatorics_markov_macdonald/) | Algebraic Combinatorics | ⬜ Not started | ⭐⭐⭐⭐ |
-| 4 | [Free convolution inequality](problems/P04_spectral_free_convolution/) | Spectral / Free Probability | ⬜ Not started | ⭐⭐⭐⭐ |
-| 5 | [Slice filtration](problems/P05_topology_slice_filtration/) | Algebraic Topology | 🟢 Draft complete | ⭐⭐⭐⭐⭐ |
-| 6 | [ε-light subsets](problems/P06_spectral_epsilon_light/) | Spectral Graph Theory | 🟡 Partial results | ⭐⭐⭐ |
-| 7 | [Lattice acyclicity](problems/P07_lattices_acyclicity/) | Lattices in Lie Groups | ⬜ Not started | ⭐⭐⭐⭐ |
-| 8 | [Lagrangian smoothing](problems/P08_symplectic_lagrangian_smoothing/) | Symplectic Geometry | ⬜ Not started | ⭐⭐⭐⭐⭐ |
-| 9 | [Quadrilinear tensors](problems/P09_tensor_quadrilinear/) | Tensor / Algebraic Geometry | ⬜ Not started | ⭐⭐⭐⭐ |
-| 10 | [PCG for CP with RKHS](problems/P10_numerical_cp_rkhs/) | Numerical Linear Algebra | 🟢 Draft complete | ⭐⭐⭐ |
+## Lean 4 Formalization
 
-### Legend
+1,932 lines of Lean 4 across 10 files, verified with Mathlib v4.27.0.
 
-- ⬜ Not started
-- 🟡 In progress
-- 🟢 Draft complete
-- ✅ Polished / submitted
+- **119 custom axioms** modeling objects not yet in Mathlib
+- **1 sorry** (P04 n≥4 — mathematically open, not a formalization gap)
+- **9/10 main theorems fully proved** from axioms
 
-## Suggested Priority Order
+See the [Lean formalization paper](05_lean_formalization/lean_formalization.pdf) for details.
 
-Based on tractability for AI (more concrete/computational → more abstract/conceptual):
+### Build
 
-1. **P10** — Numerical LA: concrete algorithmic question, well-defined answer format
-2. **P06** — ε-light subsets: clean combinatorial/spectral problem
-3. **P04** — Free convolution inequality: concrete inequality to prove
-4. **P07** — Lattice acyclicity: yes/no question with topological tools
-5. **P01** — Φ⁴₃ measure: yes/no, but deep stochastic PDE theory
-6. **P03** — Markov/Macdonald: constructive, but specialized combinatorics
-7. **P09** — Quadrilinear tensors: algebraic geometry, existence proof
-8. **P02** — Rankin–Selberg: deep number theory / automorphic forms
-9. **P05** — Slice filtration: highly specialized equivariant homotopy theory
-10. **P08** — Lagrangian smoothing: cutting-edge symplectic topology
-
-## Project Structure
-
-```
-First Proof/
-├── README.md                       ← You are here
-├── First Proof.md                  ← Original notes
-├── First_Proof.tex                 ← LaTeX source of paper
-├── problems/
-│   ├── P01–P10 folders, each with:
-│   │   ├── problem.md              ← Problem statement
-│   │   ├── approach.md             ← Strategy & key ideas
-│   │   ├── proof.md                ← Working proof draft
-│   │   ├── references.md           ← Relevant papers
-│   │   └── transcript.md           ← AI interaction log
-├── shared/
-│   ├── notation.md                 ← Common notation
-│   └── references.md               ← Shared bibliography
-└── submissions/                    ← Final polished proofs
+```bash
+# Requires Lean 4 + elan
+lake build
 ```
 
-## Rules of Engagement (from 1st Proof)
+## Repository Structure
 
-- AI must produce proofs **autonomously** — no human mathematical input
-- Proofs must meet **publication-level rigor and scholarship**
-- Citations must include **precise statement numbers** from peer-reviewed journals or arXiv
-- Share transcripts and results with **#1stProof**
+```
+01_problems/                    Problem statements
+  01_stochastic_phi4/             problem.md
+  02_rankin_selberg/              ...
+  ...
+
+02_proofs/                      Proofs and AI interaction transcripts
+  01_stochastic_phi4/             proof.md, transcript.md
+  ...
+
+03_lean/                        Lean 4 source files
+  FirstProof.lean                 Root import
+  FirstProof/
+    P01_StochasticPhi4.lean       ...
+    P10_PreconditionedCG.lean
+
+04_papers/                      Submission papers (.tex + .pdf)
+  P01_paper.tex, P01_paper.pdf
+  ...
+
+05_lean_formalization/          Meta-paper on the Lean formalization
+  lean_formalization.tex
+  lean_formalization.pdf
+
+shared/                         Common notation and references
+lakefile.toml                   Lean build configuration
+```
+
+## Method
+
+All proofs and all Lean code were generated by **Claude Sonnet 4** (Anthropic). The human operator directed strategy, reviewed axiom correctness, and prompted expansions. No mathematical content and no Lean code was written by the human operator. Full AI interaction transcripts are in `02_proofs/*/transcript.md`.
+
+## License
+
+All rights reserved. Contact the author for permissions.
