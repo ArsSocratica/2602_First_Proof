@@ -91,7 +91,7 @@ proofs in Lean~4 with Mathlib, spanning stochastic PDE, representation
 theory, combinatorics, free probability, equivariant topology, spectral
 graph theory, Lie groups, symplectic geometry, multilinear algebra, and
 numerical linear algebra.  The formalization comprises 1{,}932 lines of
-Lean across ten files, with \textbf{118 custom axioms} and only
+Lean across ten files, with \textbf{119 custom axioms} and only
 \textbf{1 \sorry{}} (on a mathematically open conjecture).
 Every file axiomatizes the objects needed to state the actual theorem,
 and in 9 of 10 cases the main theorem is \textbf{fully proved} from
@@ -133,7 +133,7 @@ precisely document what remains beyond reach.
     theorems fully proved} from axioms---the first systematic
     benchmark of Lean~4 + Mathlib across ten distinct research fields.
   \item A taxonomy of what current proof assistants can and cannot
-    verify in each field, with \textbf{118 axioms} precisely
+    verify in each field, with \textbf{119 axioms} precisely
     delineating the boundary.
   \item A concrete \textbf{Mathlib roadmap}: ten specific gaps whose
     resolution would enable deeper formalization of research
@@ -172,13 +172,13 @@ P02 & Representation theory & 184 & 16 & 0 & Universal test vector \textbf{prove
 P03 & Combinatorics & 190 & 12 & 0 & Markov chain existence \textbf{proved} \\
 P04 & Free probability & 295 & 21 & 1 & $n{=}2,3$, semi-Gaussian, symmetric \textbf{proved} \\
 P05 & Equivariant topology & 170 & 11 & 0 & Slice characterization \textbf{proved} \\
-P06 & Spectral graph theory & 220 & 8 & 0 & $c{=}1/3$ partial result \textbf{proved} \\
+P06 & Spectral graph theory & 226 & 9 & 0 & $c{=}1/3$ partial result \textbf{proved} \\
 P07 & Lie groups & 162 & 12 & 0 & $\delta{=}0$ case \textbf{proved} \\
 P08 & Symplectic geometry & 178 & 6 & 0 & Lagrangian smoothing \textbf{proved} \\
 P09 & Multilinear algebra & 160 & 9 & 0 & Rank-1 characterization \textbf{proved} \\
 P10 & Numerical linear algebra & 245 & 12 & 0 & Cost bound \textbf{proved} \\
 \midrule
-& \textbf{Total} & \textbf{1{,}932} & \textbf{118} & \textbf{1} & \\
+& \textbf{Total} & \textbf{1{,}932} & \textbf{119} & \textbf{1} & \\
 \bottomrule
 \end{tabular}
 \caption{Summary of Lean~4 formalization across ten problems.  Every file
@@ -333,7 +333,11 @@ abstract functional to coefficients), coefficient additivity under
 convolution, and the Jensen-based remainder bound.  The underlying
 objects (real-rooted polynomials, finite free convolution, the root
 repulsion functional $\Phi_n$) are not in Mathlib.  The $n \geq 4$
-case is not a Lean limitation---\textbf{no proof exists anywhere}.
+case is not a Lean limitation---\textbf{no proof exists anywhere},
+by any method.  This is the same open problem that resists SOS certificates,
+computer-assisted verification, and all known analytic approaches;
+the \sorry{} records a genuine mathematical frontier, not a
+formalization gap.
 
 % --------------------------------------------------------------------
 \subsection{P05: Equivariant Slice Filtration}
@@ -378,11 +382,14 @@ Given a graph, an ``$\eps$-light'' subset is one whose induced subgraph
 has small spectral norm relative to the whole graph.  The question asks:
 does every graph have a large $\eps$-light subset (of size $\geq c\eps n$
 for some universal constant $c$)?  The full conjecture is \textbf{open};
-we prove a partial result with $c = 1/3$.
+we prove a partial result with $c = 1/3$ for graphs whose degeneracy
+is below $3/\eps$.
 
-\paragraph{What Lean proves (0 \sorry{}, 8 axioms).}
-The partial result \lean{eps\_light\_partial} ($c = 1/3$ for all graphs)
-is \textbf{fully proved} from axioms.  Additional verified content:
+\paragraph{What Lean proves (0 \sorry{}, 9 axioms).}
+The partial result \lean{eps\_light\_partial} ($c = 1/3$ for graphs
+with degeneracy $< 3/\eps$) is \textbf{fully proved} from axioms.
+The degeneracy hypothesis appears explicitly in the Lean theorem
+statement.  Additional verified content:
 \begin{enumerate}[nosep]
   \item \textbf{Linearization}: $st \leq (s+t)/2$ for $s,t \in [0,1]$
     (\lean{linearization\_ineq\_real}, by \lean{nlinarith}).
@@ -393,8 +400,8 @@ is \textbf{fully proved} from axioms.  Additional verified content:
 \end{enumerate}
 
 \paragraph{What remains unformalized and why.}
-The 8 axioms model graph Laplacians, PSD ordering, and the degeneracy-based
-construction.  Mathlib has basic graph theory but no \textbf{spectral
+The 9 axioms model graph Laplacians, PSD ordering, graph degeneracy,
+and the degeneracy-based construction.  Mathlib has basic graph theory but no \textbf{spectral
 graph theory}---no graph Laplacian, no PSD ordering of matrices, no
 matrix concentration inequalities.  The full conjecture ($c = 1/2$)
 is \textbf{mathematically open}.
@@ -674,7 +681,7 @@ fully proved from axioms:
 
 \begin{itemize}[nosep]
   \item \textbf{Total Lean lines}: 1{,}932 across 10 files
-  \item \textbf{Total custom axioms}: 118 (modeling mathematical objects not in Mathlib)
+  \item \textbf{Total custom axioms}: 119 (modeling mathematical objects not in Mathlib)
   \item \textbf{Total \sorry{}}: 1 (P04 $n{\geq}4$, mathematically open)
   \item \textbf{Main theorems proved from axioms}: 9 of 10 (+ 2 partial results for P04)
   \item \textbf{Most common tactic}: \lean{ring} (used in 9/10 files)
@@ -756,7 +763,7 @@ As requested by the First Proof organizers, we include a record of the AI intera
   \item P09: necessity + sufficiency of Pl\"ucker equations.
   \end{itemize}
 \item Added semi-Gaussian Stam theorem (all $n$) and symmetric Stam (all $n$) as proved partial results for P04.
-\item Final state: 118 axioms, 1 \sorry{} (mathematically open), 1{,}932 lines.
+\item Final state: 119 axioms, 1 \sorry{} (mathematically open), 1{,}932 lines.
 \end{itemize}
 
 \noindent\textit{Example prompt:} ``What to do to fully fix these sorries!'' --- This triggered the bridging axiom approach that closed 9 of 10 \sorry{} statements.

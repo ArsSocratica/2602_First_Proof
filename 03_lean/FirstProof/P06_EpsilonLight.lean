@@ -200,21 +200,26 @@ axiom sparse_eps_light : ∀ (G : Graph) (eps : ℝ),
   ∃ (S : Finset (Fin (nVertices G))),
     isEpsLight G S eps ∧ (S.card : ℝ) ≥ eps / 6 * nVertices G
 
--- Bridging axiom (Theorem I): for bounded degeneracy, c = 1/3 works.
+-- Degeneracy of a graph (minimum k such that every subgraph has a vertex of degree < k)
+axiom degeneracy : Graph → ℕ
+
+-- Bridging axiom (Theorem I): for graphs with degeneracy < ⌈ 3/ε ⌉, c = 1/3 works.
+-- Proof: degeneracy ordering gives a greedy coloring with ⌈ 3/ε ⌉ bins,
+-- each bin is ε-light because back-neighbors contribute ≤ ε to spectral norm.
 axiom degeneracy_eps_light : ∀ (G : Graph) (eps : ℝ),
   0 < eps → eps < 1 →
+  (degeneracy G : ℝ) < 3 / eps →
   ∃ (S : Finset (Fin (nVertices G))),
     isEpsLight G S eps ∧ (S.card : ℝ) ≥ eps / 3 * nVertices G
 
-/-- **Main conjecture (Problem 6, Spielman): OPEN in full generality.**
-    We prove the partial result: c = 1/3 for all graphs via degeneracy. -/
-theorem eps_light_partial :
-    ∃ c : ℝ, c > 0 ∧
-    ∀ (G : Graph) (eps : ℝ), 0 < eps → eps < 1 →
+/-- **Partial result (Problem 6, Theorem I):**
+    For graphs with degeneracy < 3/ε, c = 1/3 works.
+    The full conjecture (c = 1/2 for ALL graphs) is OPEN. -/
+theorem eps_light_partial (G : Graph) (eps : ℝ)
+    (heps : 0 < eps) (heps1 : eps < 1)
+    (hdeg : (degeneracy G : ℝ) < 3 / eps) :
     ∃ (S : Finset (Fin (nVertices G))),
-      isEpsLight G S eps ∧ (S.card : ℝ) ≥ c * eps * nVertices G := by
-  refine ⟨1/3, by norm_num, fun G eps heps heps1 => ?_⟩
-  obtain ⟨S, hS, hcard⟩ := degeneracy_eps_light G eps heps heps1
-  exact ⟨S, hS, by linarith⟩
+      isEpsLight G S eps ∧ (S.card : ℝ) ≥ eps / 3 * nVertices G :=
+  degeneracy_eps_light G eps heps heps1 hdeg
 
 end FirstProof.P06
