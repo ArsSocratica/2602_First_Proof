@@ -30,7 +30,8 @@ theorem detailed_balance (w_mu w_nu c : ℝ) :
 
 /-- The stationary distribution sums to 1 (by construction). -/
 theorem stationary_sums_to_one {W : ℝ} (hW : W ≠ 0) (w_mu : ℝ) :
-    w_mu / W + (W - w_mu) / W = 1 := by field_simp
+    w_mu / W + (W - w_mu) / W = 1 := by
+  rw [div_add_div_same, add_sub_cancel, div_self hW]
 
 /-! ## 2. Irreducibility (Cayley Graph Connectivity)
 
@@ -40,11 +41,11 @@ We verify: the identity permutation is the unique fixed point,
 and every transposition is an involution. -/
 
 /-- The identity permutation fixes every element. -/
-theorem id_perm_fixed {n : ℕ} (i : Fin n) : (Equiv.Perm.refl (Fin n)) i = i := rfl
+theorem id_perm_fixed {n : ℕ} (i : Fin n) : (Equiv.refl (Fin n)) i = i := rfl
 
 /-- Every transposition is an involution: swap ∘ swap = id. -/
 theorem swap_involution {n : ℕ} (i j : Fin n) :
-    (Equiv.swap i j).trans (Equiv.swap i j) = Equiv.Perm.refl (Fin n) :=
+    (Equiv.swap i j).trans (Equiv.swap i j) = Equiv.refl (Fin n) :=
   Equiv.swap_swap i j
 
 /-- Bubble sort bound: at most n(n-1)/2 adjacent swaps suffice. -/
@@ -62,12 +63,16 @@ For x_j > 1 and t > 1, the base weight w_λ = ∏(x_j - t^{1-j})^{λ_j} > 0. -/
 
 /-- Base case: (x - 1)^a > 0 when x > 1. -/
 theorem shifted_power_pos {x : ℝ} (hx : x > 1) (a : ℕ) :
-    (x - 1) ^ a > 0 := by positivity
+    (x - 1) ^ a > 0 := by
+  apply pow_pos
+  linarith
 
 /-- For distinct x_j and t^{1-j} with x_j > t^{1-j}: the base
     factor is positive. Models w_λ = ∏(x_j - t^{1-j})^{λ_j}. -/
 theorem weight_factor_pos {x t_pow : ℝ} (h : x > t_pow) (a : ℕ) :
-    (x - t_pow) ^ a > 0 := by positivity
+    (x - t_pow) ^ a > 0 := by
+  apply pow_pos
+  linarith
 
 /-- Product of positive reals is positive. -/
 theorem product_pos {a b : ℝ} (ha : a > 0) (hb : b > 0) : a * b > 0 :=
@@ -78,7 +83,8 @@ theorem weight_ratio_valid {w W : ℝ} (hw : w > 0) (hW : W > w) :
     0 < w / W ∧ w / W < 1 := by
   constructor
   · exact div_pos hw (lt_trans hw hW)
-  · exact div_lt_one_of_lt hW (le_of_lt hw)
+  · rw [div_lt_one (lt_trans hw hW)]
+    exact hW
 
 /-- The sum of all weight ratios equals 1 (for a 3-element state space). -/
 theorem weight_sum_three {w₁ w₂ w₃ W : ℝ} (hW : W ≠ 0)

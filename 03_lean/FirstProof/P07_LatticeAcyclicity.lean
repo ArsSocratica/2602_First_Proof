@@ -60,8 +60,10 @@ For Q-acyclic universal cover, all L²-Betti numbers vanish. -/
 /-- If all L²-Betti numbers are 0, then χ = Σ(-1)^i b_i^(2) = 0. -/
 theorem l2_euler_zero (n : ℕ) (b : Fin (n + 1) → ℤ)
     (hb : ∀ i, b i = 0) :
-    (Finset.univ.sum fun i => (-1) ^ (i : ℕ) * b i) = 0 := by
-  simp [hb]
+    (Finset.univ.sum fun i : Fin (n + 1) => (-1 : ℤ) ^ (i : ℕ) * b i) = 0 := by
+  apply Finset.sum_eq_zero
+  intro i _
+  rw [hb i, mul_zero]
 
 /-- b_0^(2) = 0 for infinite groups (mixing property). -/
 theorem b0_vanishes_infinite : (0 : ℝ) = 0 := rfl

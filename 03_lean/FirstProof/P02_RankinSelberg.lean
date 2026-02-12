@@ -110,30 +110,7 @@ theorem universality_from_avoidance
     (havoid : W_avoids_all) :
     W_is_universal := h havoid
 
-/-! ## 6. Countable Union of Proper Subspaces
-
-A finite-dimensional vector space over an uncountable field cannot be
-a countable union of proper subspaces. We prove the key step: a
-finite-dimensional space is not contained in two proper subspaces. -/
-
-/-- A vector space is not the union of two proper subspaces:
-    if V ≠ W₁ and V ≠ W₂, then V ⊄ W₁ ∪ W₂.
-    This is the inductive step for the countable union argument. -/
-theorem not_union_two_proper {V : Type*} [AddCommGroup V] [Module ℝ V]
-    {W₁ W₂ : Submodule ℝ V} (hW₁ : W₁ ≠ ⊤) (hW₂ : W₂ ≠ ⊤) :
-    ∃ v : V, v ∉ W₁ ∧ v ∉ W₂ := by
-  by_contra h
-  push_neg at h
-  have h1 : (⊤ : Submodule ℝ V) ≤ W₁ ⊔ W₂ := by
-    intro x _
-    rcases h x with hw1 | hw2
-    · exact Submodule.mem_sup_left hw1
-    · exact Submodule.mem_sup_right hw2
-  have := le_antisymm le_top h1
-  rw [eq_comm] at this
-  exact hW₁ (eq_top_iff.mpr (le_trans (le_sup_left) (le_of_eq this)))
-
-/-! ## 7. Axiomatized Theorem Statement
+/-! ## 6. Axiomatized Theorem Statement
 
 We axiomatize the objects needed to state the actual theorem:
 ∃ universal W such that for all π, the Rankin–Selberg integral is

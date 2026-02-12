@@ -70,14 +70,15 @@ rank-1 factorization λ = u⊗v⊗w⊗x in 6 steps. -/
 theorem step1 {phi psi : ℝ} : phi * psi = phi * psi := rfl
 
 /-- Step 2: ★_{23} + cancellation gives ψ = ψ₀(α,β) · X(β,δ). -/
-theorem step2_cancel {phi1 psi1_d1 phi2 psi2_d2 phi1_d2 psi1 phi2_d1 psi2 : ℝ}
+theorem step2_cancel {phi1 psi1_d1 phi2 psi2_d2 psi1 psi2_d1 : ℝ}
     (hphi1 : phi1 ≠ 0) (hphi2 : phi2 ≠ 0)
     (h : phi1 * psi1_d1 * phi2 * psi2_d2 = phi1 * psi1 * phi2 * psi2_d1) :
     -- After canceling φ factors:
     psi1_d1 * psi2_d2 = psi1 * psi2_d1 := by
-  have := mul_right_cancel₀ hphi2 (mul_left_cancel₀ hphi1
-    (by ring_nf; ring_nf at h; exact h))
-  linarith
+  have h1 : phi1 * phi2 ≠ 0 := mul_ne_zero hphi1 hphi2
+  have h2 : phi1 * phi2 * (psi1_d1 * psi2_d2) = phi1 * phi2 * (psi1 * psi2_d1) := by
+    nlinarith
+  exact mul_left_cancel₀ h1 h2
 
 /-- Step 4: G is rank-1 gives G(α,β) = g(α) · g'(β). -/
 theorem step4_g_rank1 {g1 gp1 g2 gp2 : ℝ} :

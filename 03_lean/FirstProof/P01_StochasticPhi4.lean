@@ -1,5 +1,6 @@
 import Mathlib.MeasureTheory.Measure.MeasureSpace
 import Mathlib.MeasureTheory.Measure.MutuallySingular
+import Mathlib.MeasureTheory.Measure.Typeclasses.Finite
 import Mathlib.Topology.MetricSpace.Basic
 
 /-!
@@ -47,7 +48,7 @@ theorem mutuallySingular_of_separating_set
     {A : Set α} (hA : MeasurableSet A)
     (hμA : μ Aᶜ = 0) (hνA : ν A = 0) :
     μ.MutuallySingular ν :=
-  ⟨A, hA, hμA, hνA⟩
+  ⟨Aᶜ, hA.compl, hμA, by rwa [compl_compl]⟩
 
 /-- The answer to Problem 1 is NO: the measures are mutually singular.
     We axiomatize the key analytic inputs and derive the conclusion. -/
