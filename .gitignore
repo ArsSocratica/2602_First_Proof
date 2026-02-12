@@ -1,0 +1,51 @@
+# ============================================
+# Whitelist-based .gitignore for public repo
+# Ignore everything, then allow specific files
+# ============================================
+
+# Ignore everything by default
+*
+
+# ---- Allow Lean project files ----
+!.gitignore
+!README.md
+!lakefile.toml
+!lean-toolchain
+!lake-manifest.json
+!FirstProof.lean
+
+# ---- Allow Lean source files ----
+!FirstProof/
+!FirstProof/*.lean
+
+# ---- Allow submissions (tex + pdf + md) ----
+!submissions/
+!submissions/*.tex
+!submissions/*.pdf
+!submissions/*.md
+
+# ---- Allow problem docs (proof, transcript, problem only) ----
+!problems/
+!problems/*/
+!problems/*/proof.md
+!problems/*/transcript.md
+!problems/*/problem.md
+
+# ---- Allow shared docs ----
+!shared/
+!shared/*.md
+
+# ---- Allow GitHub CI ----
+!.github/
+!.github/workflows/
+!.github/workflows/*.yml
+
+# ---- Always exclude these even if unignored above ----
+.DS_Store
+.lake/
+*.aux
+*.log
+*.out
+*.toc
+.venv/
+__pycache__/

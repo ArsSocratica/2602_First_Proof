@@ -1,0 +1,335 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\F}{\mathbf{F}}
+\newcommand{\Gr}{\operatorname{Gr}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Seg}{\operatorname{Seg}}
+\newcommand{\Pp}{\mathbb{P}}
+
+\title{\textbf{Problem 9 --- Quadrilinear Determinantal Tensors}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+%----------------------------------------------------------------------
+\section*{Theorem}
+%----------------------------------------------------------------------
+
+Let $n \geq 5$. Let $A^{(1)}, \ldots, A^{(n)} \in \R^{3 \times 4}$ be Zariski-generic. For $\alpha, \beta, \gamma, \delta \in [n]$, let $Q^{(\alpha\beta\gamma\delta)} \in \R^{3 \times 3 \times 3 \times 3}$ with entries
+\[
+Q^{(\alpha\beta\gamma\delta)}_{ijkl} = \det\bigl[A^{(\alpha)}(i,:);\; A^{(\beta)}(j,:);\; A^{(\gamma)}(k,:);\; A^{(\delta)}(l,:)\bigr].
+\]
+Then there exists a polynomial map $\F\colon \R^{81n^4} \to \R^N$ such that:
+\begin{enumerate}
+\item $\F$ does not depend on $A^{(1)}, \ldots, A^{(n)}$.
+\item The degrees of the coordinate functions of $\F$ are at most $4$, independent of $n$.
+\item Let $\lambda_{\alpha\beta\gamma\delta} \neq 0$ for all non-identical $(\alpha,\beta,\gamma,\delta)$ (i.e., not all four equal). Then $\F(\lambda \cdot Q) = 0$ if and only if there exist $u, v, w, x \in (\R^*)^n$ with $\lambda_{\alpha\beta\gamma\delta} = u_\alpha v_\beta w_\gamma x_\delta$ for all non-identical $(\alpha,\beta,\gamma,\delta)$.
+\end{enumerate}
+
+\begin{remark}[Identical tuples]
+The entries $\lambda_{\alpha\alpha\alpha\alpha}$ are unconstrained: since each $A^{(\alpha)} \in \R^{3 \times 4}$ has only $3$ rows, $Q^{(\alpha\alpha\alpha\alpha)}_{ijkl} = 0$ (repeated rows in a $4 \times 4$ matrix), so $T^{(\alpha\alpha\alpha\alpha)} \equiv 0$ regardless of $\lambda_{\alpha\alpha\alpha\alpha}$. No camera-independent polynomial in $T$ can constrain these entries. The rank-1 characterization is therefore stated only on the non-identical support, which is the natural observable domain.
+\end{remark}
+
+\noindent\textbf{Answer: YES.}
+
+%----------------------------------------------------------------------
+\section*{Notation}
+%----------------------------------------------------------------------
+
+\begin{itemize}[nosep]
+\item $a^{(\alpha)}_i \in \R^4$: $i$-th row of camera $A^{(\alpha)}$, for $i \in [3] := \{1,2,3\}$.
+\item $Q^{(\alpha\beta\gamma\delta)}_{ijkl} = \det[a^{(\alpha)}_i;\, a^{(\beta)}_j;\, a^{(\gamma)}_k;\, a^{(\delta)}_l]$: quadrifocal tensor.
+\item $T^{(\alpha\beta\gamma\delta)}_{ijkl} = \lambda_{\alpha\beta\gamma\delta} \cdot Q^{(\alpha\beta\gamma\delta)}_{ijkl}$: observed tensor.
+\item Non-identical: not all four camera indices equal.
+\item For $\{p,q\} \subset \{1,2,3,4\}$, write $\{r,s\} = \{1,2,3,4\} \setminus \{p,q\}$ for the complementary positions.
+\end{itemize}
+
+%----------------------------------------------------------------------
+\section[Construction of F]{Construction of $\F$}\label{sec:construction}
+%----------------------------------------------------------------------
+
+The map $\F$ consists of six families of Pl\"ucker equations, one for each pair of positions $\{p,q\} \subset \{1,2,3,4\}$.
+
+Fix a pair $\{p,q\}$ with complement $\{r,s\}$ ($r < s$). For cameras $c_p, c_q$ (shared) and $v_1, v_2, v_3, v_4$ (varying in positions $r, s$), define six 4-tuples by placing $c_p$ in position $p$, $c_q$ in position $q$, and the indicated cameras in positions $r, s$:
+\begin{align*}
+\tau_1 &= (c_p, c_q;\, v_1, v_2), & \tau_2 &= (c_p, c_q;\, v_3, v_4), \\
+\tau_3 &= (c_p, c_q;\, v_1, v_3), & \tau_4 &= (c_p, c_q;\, v_2, v_4), \\
+\tau_5 &= (c_p, c_q;\, v_1, v_4), & \tau_6 &= (c_p, c_q;\, v_2, v_3),
+\end{align*}
+where $(c_p, c_q;\, v_r, v_s)$ denotes the 4-tuple with camera $c_p$ in position $p$, $c_q$ in position $q$, $v_r$ in position $r$, $v_s$ in position $s$. Require all six 4-tuples to be non-identical.
+
+For row-index 6-tuples $I_m = (i^m_p, i^m_q, i^m_1, i^m_2, i^m_3, i^m_4) \in [3]^6$ ($m = 1, 2$), the six components correspond to the row indices for cameras $c_p, c_q, v_1, v_2, v_3, v_4$ respectively. Define:
+\begin{align*}
+P_{\{p,q\}}(I_m) &:= T^{\tau_1}_{(i^m_p, i^m_q, i^m_1, i^m_2)} \cdot T^{\tau_2}_{(i^m_p, i^m_q, i^m_3, i^m_4)}, \\[4pt]
+S_{\{p,q\}}(I_m) &:= T^{\tau_3}_{(i^m_p, i^m_q, i^m_1, i^m_3)} \cdot T^{\tau_4}_{(i^m_p, i^m_q, i^m_2, i^m_4)} - T^{\tau_5}_{(i^m_p, i^m_q, i^m_1, i^m_4)} \cdot T^{\tau_6}_{(i^m_p, i^m_q, i^m_2, i^m_3)},
+\end{align*}
+where each subscript 4-tuple is ordered by position $(1,2,3,4)$, with the shared indices in positions $p,q$ and the varying indices in positions $r,s$. The equation is:
+\begin{equation}\tag{$\mathcal{P}_{pq}$}
+F^{\{p,q\}}_{(c_p,c_q,v_1,v_2,v_3,v_4),\,I_1,I_2} := P_{\{p,q\}}(I_1) \cdot S_{\{p,q\}}(I_2) - P_{\{p,q\}}(I_2) \cdot S_{\{p,q\}}(I_1).
+\end{equation}
+The map $\F$ is the collection of all $F^{\{p,q\}}$ equations over all six pairs $\{p,q\}$, all camera choices, and all row-index pairs.
+
+\medskip
+\noindent\textbf{Explicit instantiation for $\{p,q\} = \{1,2\}$.}\quad Complement $\{r,s\} = \{3,4\}$. Shared cameras $(c_1,c_2) = (\alpha,\beta)$. Varying cameras $(v_1,v_2,v_3,v_4) = (\gamma,\delta,\gamma',\delta')$. Row indices $(i,j,k,l,k',l') \in [3]^6$. Then:
+\begin{alignat*}{2}
+\tau_1 &= (\alpha,\beta,\gamma,\delta), &\qquad J_1 &= (i,j,k,l), \\
+\tau_2 &= (\alpha,\beta,\gamma',\delta'), &\qquad J_2 &= (i,j,k',l'), \\
+\tau_3 &= (\alpha,\beta,\gamma,\gamma'), &\qquad J_3 &= (i,j,k,k'), \\
+\tau_4 &= (\alpha,\beta,\delta,\delta'), &\qquad J_4 &= (i,j,l,l'), \\
+\tau_5 &= (\alpha,\beta,\gamma,\delta'), &\qquad J_5 &= (i,j,k,l'), \\
+\tau_6 &= (\alpha,\beta,\delta,\gamma'), &\qquad J_6 &= (i,j,l,k'),
+\end{alignat*}
+and $P(I) = T^{\tau_1}_{J_1} T^{\tau_2}_{J_2}$, \; $S(I) = T^{\tau_3}_{J_3} T^{\tau_4}_{J_4} - T^{\tau_5}_{J_5} T^{\tau_6}_{J_6}$.
+
+\medskip
+\noindent\textbf{Properties 1 and 2} are immediate: each $F^{\{p,q\}}$ is a degree-4 polynomial in the entries of $T$ only; no camera matrix appears. The unknown ratio $\mu$ between $P(I)$ and $S(I)$ (see Section~\ref{sec:necessity}) is eliminated by cross-multiplying two instances $I_1, I_2$, ensuring $\F$ is polynomial (no denominators) and quartic in $T$.
+
+%----------------------------------------------------------------------
+\section*{Idea of the Proof}
+%----------------------------------------------------------------------
+
+Each Pl\"ucker relation gives a quadratic identity among the $Q$-tensors. After scaling by $\lambda$, it becomes $P(I) = \mu \cdot S(I)$ where $\mu$ depends only on $\lambda$-ratios, not on row indices. Cross-multiplying two instances $I_1, I_2$ removes $\mu$ and yields quartic, camera-free polynomials in $T$. For generic cameras, these force vanishing of all $2 \times 2$ minors of certain $\lambda$-slices (pairwise rank-1 conditions). The six families---one per pair of positions---yield six such conditions, and a six-step algebraic peeling argument shows these jointly force $\lambda = u \otimes v \otimes w \otimes x$ on the non-identical support.
+
+%----------------------------------------------------------------------
+\section[Necessity]{Necessity ($\lambda$ rank-1 $\Rightarrow$ $\F = 0$)}
+\label{sec:necessity}
+%----------------------------------------------------------------------
+
+\begin{lemma}[Pl\"ucker identity]\label{lem:plucker}
+For any vectors $r_1, r_2, v_1, v_2, v_3, v_4 \in \R^4$:
+\begin{multline*}
+\det[r_1,r_2,v_1,v_2] \cdot \det[r_1,r_2,v_3,v_4] \\
+= \det[r_1,r_2,v_1,v_3] \cdot \det[r_1,r_2,v_2,v_4] - \det[r_1,r_2,v_1,v_4] \cdot \det[r_1,r_2,v_2,v_3].
+\end{multline*}
+\end{lemma}
+
+\begin{proof}
+This is the Pl\"ucker relation for $\Gr(2,4)$; see \cite{GH78}, Ch.~1, \S5, eq.~(5.1), p.~211, or \cite{HP94}, Vol.~I, Ch.~VII, \S4, Theorem~I.
+\end{proof}
+
+\begin{lemma}\label{lem:necessity}
+If $\lambda_{\alpha\beta\gamma\delta} = u_\alpha v_\beta w_\gamma x_\delta$, then $F^{\{p,q\}} = 0$ for all six pairs $\{p,q\}$.
+\end{lemma}
+
+\begin{proof}
+We prove the case $\{p,q\} = \{1,2\}$; the other five follow by the same argument with the shared rows in positions $p,q$. (For $\{p,q\} \neq \{1,2\}$, reordering rows of the $4 \times 4$ determinant to place the shared rows first introduces a sign $(-1)^\sigma$ in each $Q$-factor, but these signs cancel in the degree-4 expression $F^{\{p,q\}}$ since each term is a product of two $Q$-factors sharing the same row permutation.)
+
+With shared cameras $(\alpha,\beta)$ in positions $(1,2)$ and varying cameras $(\gamma,\delta,\gamma',\delta')$ in positions $(3,4)$, Lemma~\ref{lem:plucker} with $r_1 = a^{(\alpha)}_i$, $r_2 = a^{(\beta)}_j$ gives at the $Q$-level:
+\[
+Q^{(\alpha\beta\gamma\delta)}_{ijkl} \cdot Q^{(\alpha\beta\gamma'\delta')}_{ijk'l'} = Q^{(\alpha\beta\gamma\gamma')}_{ijkk'} \cdot Q^{(\alpha\beta\delta\delta')}_{ijll'} - Q^{(\alpha\beta\gamma\delta')}_{ijkl'} \cdot Q^{(\alpha\beta\delta\gamma')}_{ijlk'}.
+\]
+Substituting $T = \lambda \cdot Q$:
+\[
+P(I) = \lambda_{\alpha\beta\gamma\delta} \cdot \lambda_{\alpha\beta\gamma'\delta'} \cdot \bigl[Q^{(\alpha\beta\gamma\gamma')} Q^{(\alpha\beta\delta\delta')} - Q^{(\alpha\beta\gamma\delta')} Q^{(\alpha\beta\delta\gamma')}\bigr].
+\]
+For $S(I) = \lambda_{\alpha\beta\gamma\gamma'} \lambda_{\alpha\beta\delta\delta'} \cdot Q^{(\alpha\beta\gamma\gamma')} Q^{(\alpha\beta\delta\delta')} - \lambda_{\alpha\beta\gamma\delta'} \lambda_{\alpha\beta\delta\gamma'} \cdot Q^{(\alpha\beta\gamma\delta')} Q^{(\alpha\beta\delta\gamma')}$, the $\lambda$-ratios for rank-1 $\lambda$ are:
+\[
+\mu_1 := \frac{\lambda_{\alpha\beta\gamma\delta} \lambda_{\alpha\beta\gamma'\delta'}}{\lambda_{\alpha\beta\gamma\gamma'} \lambda_{\alpha\beta\delta\delta'}} = \frac{x_\delta w_{\gamma'}}{x_{\gamma'} w_\delta}, \qquad
+\mu_2 := \frac{\lambda_{\alpha\beta\gamma\delta} \lambda_{\alpha\beta\gamma'\delta'}}{\lambda_{\alpha\beta\gamma\delta'} \lambda_{\alpha\beta\delta\gamma'}} = \frac{x_\delta w_{\gamma'}}{w_\delta x_{\gamma'}}.
+\]
+Since $\mu_1 = \mu_2 =: \mu$, we have $P(I) = \mu \cdot S(I)$ for all $I$. Therefore:
+\[
+F^{\{1,2\}} = P(I_1)\, S(I_2) - P(I_2)\, S(I_1) = \mu\, S(I_1)\, S(I_2) - \mu\, S(I_2)\, S(I_1) = 0. \qedhere
+\]
+\end{proof}
+
+%----------------------------------------------------------------------
+\section[Sufficiency: Pairwise Rank-1]{Sufficiency --- Pl\"ucker Equations Imply Pairwise Rank-1}
+%----------------------------------------------------------------------
+
+\begin{proposition}\label{prop:pairwise}
+For Zariski-generic cameras, if $F^{\{p,q\}} = 0$ for all camera and row-index choices, then for every pair $\{p,q\}$ and every choice of cameras $c_p, c_q$, the matrix $M^{(c_p,c_q)}_{v_r, v_s} := \lambda_{(c_p, c_q;\, v_r, v_s)}$ has rank $1$ in $(v_r, v_s)$.
+\end{proposition}
+
+\begin{proof}
+We prove the case $\{p,q\} = \{1,2\}$; the others follow by the same argument with positions relabeled.
+
+\medskip\noindent\textbf{Factoring $F^{\{1,2\}}$.}\quad Write $\Lambda_P := \lambda_{\alpha\beta\gamma\delta} \lambda_{\alpha\beta\gamma'\delta'}$, \; $\Lambda_{S_1} := \lambda_{\alpha\beta\gamma\gamma'} \lambda_{\alpha\beta\delta\delta'}$, \; $\Lambda_{S_2} := \lambda_{\alpha\beta\gamma\delta'} \lambda_{\alpha\beta\delta\gamma'}$. Define:
+\[
+S_{Q,1}(I) := Q^{(\alpha\beta\gamma\gamma')}_{I_3} \cdot Q^{(\alpha\beta\delta\delta')}_{I_4}, \qquad S_{Q,2}(I) := Q^{(\alpha\beta\gamma\delta')}_{I_5} \cdot Q^{(\alpha\beta\delta\gamma')}_{I_6}.
+\]
+By Lemma~\ref{lem:plucker}, $P_Q(I) := Q^{(\alpha\beta\gamma\delta)}_{I_1} Q^{(\alpha\beta\gamma'\delta')}_{I_2} = S_{Q,1}(I) - S_{Q,2}(I)$. Then:
+\[
+P(I) = \Lambda_P \cdot [S_{Q,1}(I) - S_{Q,2}(I)], \qquad S(I) = \Lambda_{S_1} \cdot S_{Q,1}(I) - \Lambda_{S_2} \cdot S_{Q,2}(I).
+\]
+Expanding $F^{\{1,2\}} = P(I_1)\, S(I_2) - P(I_2)\, S(I_1)$:
+\begin{equation}\tag{$\dagger$}
+F^{\{1,2\}} = \Lambda_P \cdot (\Lambda_{S_1} - \Lambda_{S_2}) \cdot \bigl[S_{Q,1}(I_1) \cdot S_{Q,2}(I_2) - S_{Q,1}(I_2) \cdot S_{Q,2}(I_1)\bigr].
+\end{equation}
+\end{proof}
+
+\begin{lemma}[Genericity]\label{lem:genericity}
+For any $n \geq 5$ and any choice of cameras $\gamma, \delta, \gamma', \delta'$ (with possible repetitions among $\alpha, \beta$), the bracket in $(\dagger)$ is a polynomial in the camera entries that is not identically zero.
+\end{lemma}
+
+\begin{proof}
+It suffices to exhibit one camera configuration where the bracket is nonzero (since a polynomial that is nonzero at a point is nonzero on a Zariski-open dense set). Consider cameras $A^{(m)}$ with rows
+\[
+a^{(m)}_1 = (1,0,0,m), \quad a^{(m)}_2 = (0,1,0,m^2), \quad a^{(m)}_3 = (0,0,1,m^3)
+\]
+for $m = 1, \ldots, n$. Take $\alpha = 1, \beta = 2$ (shared), $\gamma = 3, \delta = 4, \gamma' = 5, \delta' = 6$ (or $\delta' = 1$ if $n = 5$). Choose $I_1 = (1,1,2,2,3,3)$ and $I_2 = (1,1,2,3,2,3)$.
+
+\smallskip\noindent\emph{For $I_1$:} the shared rows are $a^{(1)}_1 = (1,0,0,1)$ and $a^{(2)}_1 = (1,0,0,2)$, with varying rows of type $a^{(\cdot)}_2 = (0,1,0,\cdot)$ and $a^{(\cdot)}_3 = (0,0,1,\cdot)$. By cofactor expansion along the first two rows (which differ only in the last entry), every determinant of the form $\det[a^{(1)}_1, a^{(2)}_1, a^{(\cdot)}_2, a^{(\cdot)}_3]$ equals $t_\beta - t_\alpha = 1$, independent of the varying cameras. Therefore $S_{Q,1}(I_1) = 1$ and $S_{Q,2}(I_1) = 1$.
+
+\smallskip\noindent\emph{For $I_2$:} the varying rows are $(2,3,2,3)$ instead of $(2,2,3,3)$. The factors of $S_{Q,1}(I_2)$ involve determinants $\det[a^{(1)}_1, a^{(2)}_1, a^{(\gamma)}_2, a^{(\gamma')}_2]$ and $\det[a^{(1)}_1, a^{(2)}_1, a^{(\delta)}_3, a^{(\delta')}_3]$. Each has two rows of the form $(0,1,0,\cdot)$ or $(0,0,1,\cdot)$, giving a $4 \times 4$ matrix with rank $\leq 3$. Hence both determinants are $0$, so $S_{Q,1}(I_2) = 0$.
+
+The factor $S_{Q,2}(I_2)$ involves $\det[a^{(1)}_1, a^{(2)}_1, a^{(\gamma)}_2, a^{(\delta')}_3] \cdot \det[a^{(1)}_1, a^{(2)}_1, a^{(\delta)}_3, a^{(\gamma')}_2]$. The first determinant equals $1$ (same structure as $I_1$). The second has rows $a^{(\cdot)}_3$ before $a^{(\cdot)}_2$ in positions 3,4, giving $-1$ (one row swap). So $S_{Q,2}(I_2) = -1$.
+
+Therefore the bracket equals $1 \cdot (-1) - 0 \cdot 1 = -1 \neq 0$. The same computation applies for $n = 5$ with $\delta' = \alpha$ (repeated index), since the determinant structure depends only on the row types.
+\end{proof}
+
+\medskip
+\noindent\emph{Proof of Proposition~\ref{prop:pairwise} (continued).}\quad Since the bracket is a nonzero polynomial, it is nonzero on a Zariski-open dense subset of the camera parameter space. Combined with $\Lambda_P \neq 0$ (all $\lambda$-values on non-identical tuples are nonzero), we conclude from $(\dagger)$:
+\begin{equation}\tag{$\star_{12}$}
+\Lambda_{S_1} = \Lambda_{S_2}, \quad \text{i.e.,} \quad \lambda_{\alpha\beta\gamma\gamma'} \lambda_{\alpha\beta\delta\delta'} = \lambda_{\alpha\beta\gamma\delta'} \lambda_{\alpha\beta\delta\gamma'}.
+\end{equation}
+This is the vanishing of all $2 \times 2$ minors of $M^{(\alpha,\beta)}_{\gamma,\delta} = \lambda_{\alpha\beta\gamma\delta}$, i.e., $\rank M^{(\alpha,\beta)} = 1$. \qed
+
+\medskip
+Applying Proposition~\ref{prop:pairwise} to all six pairs yields six pairwise rank-1 conditions:
+\begin{itemize}[nosep]
+\item $(\star_{12})$: For fixed $(\alpha,\beta)$, $\lambda_{\alpha\beta\gamma\delta}$ is rank-1 in $(\gamma,\delta)$.
+\item $(\star_{13})$: For fixed $(\alpha,\gamma)$, $\lambda_{\alpha\beta\gamma\delta}$ is rank-1 in $(\beta,\delta)$.
+\item $(\star_{14})$: For fixed $(\alpha,\delta)$, $\lambda_{\alpha\beta\gamma\delta}$ is rank-1 in $(\beta,\gamma)$.
+\item $(\star_{23})$: For fixed $(\beta,\gamma)$, $\lambda_{\alpha\beta\gamma\delta}$ is rank-1 in $(\alpha,\delta)$.
+\item $(\star_{24})$: For fixed $(\beta,\delta)$, $\lambda_{\alpha\beta\gamma\delta}$ is rank-1 in $(\alpha,\gamma)$.
+\item $(\star_{34})$: For fixed $(\gamma,\delta)$, $\lambda_{\alpha\beta\gamma\delta}$ is rank-1 in $(\alpha,\beta)$.
+\end{itemize}
+
+%----------------------------------------------------------------------
+\section[Sufficiency: Rank-1]{Sufficiency --- Pairwise Rank-1 Implies Rank-1}
+%----------------------------------------------------------------------
+
+\begin{proposition}\label{prop:rank1}
+If $\lambda_{\alpha\beta\gamma\delta} \neq 0$ for all non-identical $(\alpha,\beta,\gamma,\delta)$ and the six conditions $(\star_{12})$--$(\star_{34})$ hold, then there exist $u, v, w, x \in (\R^*)^n$ such that $\lambda_{\alpha\beta\gamma\delta} = u_\alpha v_\beta w_\gamma x_\delta$ for all non-identical $(\alpha,\beta,\gamma,\delta)$.
+\end{proposition}
+
+\begin{proof}
+We extract the rank-1 factorization in six steps, each using one pairwise condition. Fix five distinct reference indices $a_0, b_0, c_0, d_0, e_0 \in [n]$ (possible since $n \geq 5$).
+
+\medskip\noindent\textbf{Step 1.}\quad By $(\star_{12})$, for each fixed $(\alpha,\beta)$, the matrix $\lambda_{\alpha\beta\gamma\delta}$ has rank~1 in $(\gamma,\delta)$ on non-identical tuples. So:
+\[
+\lambda_{\alpha\beta\gamma\delta} = \varphi(\alpha,\beta,\gamma) \cdot \psi(\alpha,\beta,\delta)
+\]
+for all non-identical $(\alpha,\beta,\gamma,\delta)$. Explicitly: for each $(\alpha,\beta)$, choose a pivot $c_*(\alpha,\beta) \in \{c_0, e_0\}$ such that $c_* \neq \alpha$ (possible since $c_0 \neq e_0$). Then $(\alpha,\beta,c_*,\delta)$ is non-identical for all $\delta$ (since $c_* \neq \alpha$), so we may define:
+\[
+\psi(\alpha,\beta,\delta) := \lambda_{\alpha\beta\, c_*\, \delta}, \qquad \varphi(\alpha,\beta,\gamma) := \frac{\lambda_{\alpha\beta\gamma d_0}}{\psi(\alpha,\beta,d_0)}.
+\]
+All evaluations are at non-identical tuples (since $c_* \neq \alpha$ and $d_0 \notin \{c_0, e_0\}$ can be chosen distinct from $c_*$).
+
+\medskip\noindent\textbf{Step 2.}\quad By $(\star_{23})$, for each fixed $(\beta,\gamma)$, $\lambda_{\alpha\beta\gamma\delta}$ is rank-1 in $(\alpha,\delta)$. Substituting Step~1: $\varphi(\alpha,\beta,\gamma) \cdot \psi(\alpha,\beta,\delta)$ must be rank-1 in $(\alpha,\delta)$ for fixed $(\beta,\gamma)$. The $\varphi$-factors cancel (nonzero), leaving:
+\[
+\psi(\alpha_1,\beta,\delta_1)\, \psi(\alpha_2,\beta,\delta_2) = \psi(\alpha_1,\beta,\delta_2)\, \psi(\alpha_2,\beta,\delta_1).
+\]
+So for fixed $\beta$, $\psi(\alpha,\beta,\delta)$ is rank-1 in $(\alpha,\delta)$: $\psi(\alpha,\beta,\delta) = \psi_0(\alpha,\beta) \cdot X(\beta,\delta)$, where $X(\beta,\delta) := \psi(a_0,\beta,\delta)/\psi(a_0,\beta,d_0)$ and $\psi_0(\alpha,\beta) := \psi(\alpha,\beta,d_0)$.
+
+Substituting: $\lambda_{\alpha\beta\gamma\delta} = F(\alpha,\beta,\gamma) \cdot X(\beta,\delta)$, where $F := \varphi \cdot \psi_0$.
+
+\medskip\noindent\textbf{Step 3.}\quad By $(\star_{14})$, for fixed $(\alpha,\delta)$, $\lambda$ is rank-1 in $(\beta,\gamma)$. The $X$-factors cancel in the $2 \times 2$ minor, so $F$ is rank-1 in $(\beta,\gamma)$ for fixed $\alpha$:
+\[
+F(\alpha,\beta,\gamma) = G(\alpha,\beta) \cdot H(\alpha,\gamma).
+\]
+Therefore $\lambda_{\alpha\beta\gamma\delta} = G(\alpha,\beta) \cdot H(\alpha,\gamma) \cdot X(\beta,\delta)$.
+
+\medskip\noindent\textbf{Step 4.}\quad By $(\star_{34})$, for fixed $(\gamma,\delta)$, $\lambda$ is rank-1 in $(\alpha,\beta)$. The $H$ and $X$ factors cancel: $G(\alpha_1,\beta_1)\, G(\alpha_2,\beta_2) = G(\alpha_1,\beta_2)\, G(\alpha_2,\beta_1)$. So $G$ is rank-1:
+\[
+G(\alpha,\beta) = g(\alpha) \cdot g'(\beta).
+\]
+Therefore $\lambda_{\alpha\beta\gamma\delta} = g(\alpha) \cdot g'(\beta) \cdot H(\alpha,\gamma) \cdot X(\beta,\delta)$.
+
+\medskip\noindent\textbf{Step 5.}\quad By $(\star_{24})$, for fixed $(\beta,\delta)$, $\lambda$ is rank-1 in $(\alpha,\gamma)$. The bracket $g'(\beta)\, X(\beta,\delta)$ is a scalar, so $g(\alpha)\, H(\alpha,\gamma)$ must be rank-1 in $(\alpha,\gamma)$. The $g$-factors cancel, so $H$ is rank-1:
+\[
+H(\alpha,\gamma) = h(\alpha) \cdot w(\gamma).
+\]
+Therefore $\lambda_{\alpha\beta\gamma\delta} = g(\alpha)\, h(\alpha) \cdot g'(\beta) \cdot w(\gamma) \cdot X(\beta,\delta)$.
+
+\medskip\noindent\textbf{Step 6.}\quad By $(\star_{13})$, for fixed $(\alpha,\gamma)$, $\lambda$ is rank-1 in $(\beta,\delta)$. The bracket $g(\alpha)\, h(\alpha)\, w(\gamma)$ is a scalar, so $g'(\beta)\, X(\beta,\delta)$ must be rank-1 in $(\beta,\delta)$. The $g'$-factors cancel, so $X$ is rank-1:
+\[
+X(\beta,\delta) = \tilde{v}(\beta) \cdot x(\delta).
+\]
+
+\medskip\noindent\textbf{Conclusion.}\quad Setting $u(\alpha) := g(\alpha)\, h(\alpha)$, $v(\beta) := g'(\beta)\, \tilde{v}(\beta)$:
+\[
+\lambda_{\alpha\beta\gamma\delta} = u(\alpha) \cdot v(\beta) \cdot w(\gamma) \cdot x(\delta)
+\]
+for all non-identical $(\alpha,\beta,\gamma,\delta)$. All factors are nonzero since $\lambda \neq 0$ on non-identical tuples.
+\end{proof}
+
+\begin{remark}
+The rank-1 tensors form the Segre variety $\Seg(\Pp^{n-1} \times \Pp^{n-1} \times \Pp^{n-1} \times \Pp^{n-1})$, cut out by $2 \times 2$ minors of all mode flattenings \cite{La12}. Proposition~\ref{prop:rank1} shows that the six pairwise rank-1 conditions $(\star_{12})$--$(\star_{34})$---which are precisely the $2 \times 2$ minors of the six $\binom{4}{2}$ flattenings---suffice to place $\lambda$ on the Segre variety (restricted to the non-identical support).
+\end{remark}
+
+%----------------------------------------------------------------------
+\section*{Summary}
+%----------------------------------------------------------------------
+
+The polynomial map $\F$ consists of six families of Pl\"ucker equations $\mathcal{P}_{12}, \mathcal{P}_{13}, \mathcal{P}_{14}, \mathcal{P}_{23}, \mathcal{P}_{24}, \mathcal{P}_{34}$ (degree~4 each), totaling $O(n^6 \cdot 3^{12})$ equations. The proof establishes:
+\begin{enumerate}
+\item \textbf{Camera-independence}: $\F$ is expressed purely in terms of $T$-entries.
+\item \textbf{Bounded degree}: all coordinate functions have degree~4, independent of $n$.
+\item \textbf{Exact characterization} (for Zariski-generic cameras): $\F(\lambda \cdot Q) = 0 \iff \lambda$ is rank-1.
+\end{enumerate}
+
+The assumption $n \geq 5$ is used in two places: (i)~the Pl\"ucker equations require six camera slots (two shared, four varying), and for $n = 5$ some varying cameras must repeat a shared camera---this is valid since the problem defines $\lambda_{\alpha\beta\gamma\delta} \neq 0$ for non-identical (not all-same) tuples, so e.g.\ $(\alpha,\beta,\gamma,\alpha)$ is permitted; (ii)~the factor extraction in Proposition~\ref{prop:rank1} requires five distinct reference indices $a_0, b_0, c_0, d_0, e_0$. The genericity witness in Lemma~\ref{lem:genericity} applies equally to $n = 5$ (with $v_4 = c_p$), as verified by explicit computation. For $n \leq 4$, the problem is open under this proof technique. \qed
+
+%----------------------------------------------------------------------
+\begin{thebibliography}{99}
+%----------------------------------------------------------------------
+
+\bibitem{GH78}
+P.~Griffiths, J.~Harris,
+\emph{Principles of Algebraic Geometry},
+Wiley-Interscience, 1978.
+Ch.~1, \S5, eq.~(5.1), p.~211: Pl\"ucker relations for $\Gr(k,n)$.
+
+\bibitem{HP94}
+W.V.D.~Hodge, D.~Pedoe,
+\emph{Methods of Algebraic Geometry}, Vol.~I,
+Cambridge University Press, 1994 (reprint of 1947 edition).
+Ch.~VII, \S4, Theorem~I: quadratic $p$-relations.
+
+\bibitem{HZ04}
+R.~Hartley, A.~Zisserman,
+\emph{Multiple View Geometry in Computer Vision},
+Cambridge University Press, 2nd ed., 2004.
+Ch.~17: quadrifocal tensor structure.
+
+\bibitem{Ki17}
+J.~Kileel,
+``Algebraic Geometry for Computer Vision,''
+PhD thesis, UC Berkeley, 2017.
+Quadrifocal tensors and multiview variety.
+
+\bibitem{La12}
+J.M.~Landsberg,
+\emph{Tensors: Geometry and Applications},
+AMS Graduate Studies in Mathematics, Vol.~128, 2012.
+Ch.~4: Segre variety and tensor rank.
+
+\end{thebibliography}
+
+\end{document}
