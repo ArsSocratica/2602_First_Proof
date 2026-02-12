@@ -1,23 +1,38 @@
-# First Proof — AI-Generated Mathematical Proofs
+# First Proof Challenge — AI Solutions & Lean Formalizations
 
-Solutions to the [1st Proof](https://1stproof.org/) challenge: ten research-level mathematics problems solved autonomously by AI, with Lean 4 formal verification.
+**A non-mathematician's experiment with frontier AI on genuine research-level mathematics.**
+
+*By Mark Dillerop*
+
+This repository contains my responses to the 10 problems from the [**First Proof**](https://1stproof.org/) benchmark (released February 2026), as featured in the New York Times article ["These Mathematicians Are Putting A.I. to the Test"](https://www.nytimes.com/2026/02/07/science/mathematics-ai-proof-hairer.html).
 
 **Challenge paper:** [arXiv:2602.05192](https://arxiv.org/abs/2602.05192)
 
+## Background
+
+I am **not a mathematician**. I have no formal mathematical training beyond high school. Using only prompting, review, and iteration with AI systems (Claude Opus 4.6, Grok, Gemini 3, ChatGPT 5.2 Pro, and Perplexity), I produced:
+
+- Full solution papers for all 10 problems
+- Lean 4 formalizations of the algebraic and logical skeletons
+- A meta-paper analyzing the formalization methodology
+
 ## Results
 
-| # | Problem | Field | Answer | Paper |
-|---|---------|-------|--------|-------|
-| P01 | Φ⁴₃ measure equivalence | Stochastic PDE | **NO** — mutually singular | [PDF](04_papers/P01_paper.pdf) |
-| P02 | Rankin–Selberg test vector | Representation theory | **YES** — universal W exists | [PDF](04_papers/P02_paper.pdf) |
-| P03 | Markov chain / Macdonald | Combinatorics | **YES** — chain exists | [PDF](04_papers/P03_paper.pdf) |
-| P04 | Finite free Stam inequality | Free probability | **YES** for n≤3; **OPEN** n≥4 | [PDF](04_papers/P04_paper.pdf) |
-| P05 | Equivariant slice filtration | Algebraic topology | **YES** — geometric fixed points | [PDF](04_papers/P05_paper.pdf) |
-| P06 | ε-light subsets | Spectral graph theory | **Partial** — c=1/3 conditional | [PDF](04_papers/P06_paper.pdf) |
-| P07 | Lattice acyclicity | Lie groups | **NO** for δ=0 or d≤4 | [PDF](04_papers/P07_paper.pdf) |
-| P08 | Lagrangian smoothing | Symplectic geometry | **YES** — smoothing exists | [PDF](04_papers/P08_paper.pdf) |
-| P09 | Quadrilinear tensors | Multilinear algebra | **YES** — degree ≤ 4 | [PDF](04_papers/P09_paper.pdf) |
-| P10 | Preconditioned CG for CP | Numerical linear algebra | **YES** — cost bound proved | [PDF](04_papers/P10_paper.pdf) |
+**9 out of 10** main theorems were **fully proved from axioms** with zero `sorry`.
+Only **P04** remains partial (the general case for n ≥ 4 is mathematically open — no proof exists anywhere, by any method).
+
+| # | Problem | Field | Answer | Axioms | Paper |
+|---|---------|-------|--------|--------|-------|
+| P01 | Φ⁴₃ measure equivalence | Stochastic PDE | **NO** — mutually singular | 11 | [PDF](04_papers/P01_paper.pdf) |
+| P02 | Rankin–Selberg test vector | Representation theory | **YES** — universal W exists | 16 | [PDF](04_papers/P02_paper.pdf) |
+| P03 | Markov chain / Macdonald | Combinatorics | **YES** — chain exists | 12 | [PDF](04_papers/P03_paper.pdf) |
+| P04 | Finite free Stam inequality | Free probability | **YES** for n≤3; **OPEN** n≥4 | 21 | [PDF](04_papers/P04_paper.pdf) |
+| P05 | Equivariant slice filtration | Algebraic topology | **YES** — geometric fixed points | 11 | [PDF](04_papers/P05_paper.pdf) |
+| P06 | ε-light subsets | Spectral graph theory | **Partial** — c=1/3 for bounded degeneracy | 9 | [PDF](04_papers/P06_paper.pdf) |
+| P07 | Lattice acyclicity | Lie groups | **NO** for δ=0 or d≤4 | 12 | [PDF](04_papers/P07_paper.pdf) |
+| P08 | Lagrangian smoothing | Symplectic geometry | **YES** — smoothing exists | 6 | [PDF](04_papers/P08_paper.pdf) |
+| P09 | Quadrilinear tensors | Multilinear algebra | **YES** — degree ≤ 4 | 9 | [PDF](04_papers/P09_paper.pdf) |
+| P10 | Preconditioned CG for CP | Numerical linear algebra | **YES** — cost bound proved | 12 | [PDF](04_papers/P10_paper.pdf) |
 
 ## Lean 4 Formalization
 
@@ -40,37 +55,42 @@ lake build
 
 ```
 01_problems/                    Problem statements
-  01_stochastic_phi4/             problem.md
-  02_rankin_selberg/              ...
-  ...
-
-02_proofs/                      Proofs and AI interaction transcripts
-  01_stochastic_phi4/             proof.md, transcript.md
-  ...
-
-03_lean/                        Lean 4 source files
-  FirstProof.lean                 Root import
-  FirstProof/
-    P01_StochasticPhi4.lean       ...
-    P10_PreconditionedCG.lean
-
+02_proofs/                      Proofs and AI interaction transcript summaries
+03_lean/                        Lean 4 source files (lake build from root)
 04_papers/                      Submission papers (.tex + .pdf)
-  P01_paper.tex, P01_paper.pdf
-  ...
-
 05_lean_formalization/          Meta-paper on the Lean formalization
-  lean_formalization.tex
-  lean_formalization.pdf
-
 shared/                         Common notation and references
-lakefile.toml                   Lean build configuration
 ```
 
-## Method
+## Methodology
 
-All proofs and all Lean code were generated by AI: **Claude Opus 4.6** (Anthropic), **Gemini 3** (Google), **ChatGPT 5.2 Pro** (OpenAI), **Perplexity**, and **Grok** (xAI). The human operator orchestrated the workflow: selecting problems, directing strategy across models, cross-checking outputs between systems, and reviewing mathematical correctness of axioms and proof claims. No mathematical content and no Lean code was written by the human operator.
+All mathematical content, proofs, and Lean code were generated by AI:
+**Claude Opus 4.6** (Anthropic), **Gemini 3** (Google), **ChatGPT 5.2 Pro** (OpenAI), **Perplexity**, and **Grok** (xAI).
+
+My role was limited to:
+- Selecting the problems and formalization targets
+- Prompting and directing strategy across models
+- Cross-checking outputs between different AI systems
+- Reviewing mathematical correctness of axioms and proof claims
+
+No axioms, no mathematical ideas, and no Lean code came from me.
 
 AI interaction transcripts in `02_proofs/*/transcript.md` are **summaries**, not verbatim logs.
+
+## Purpose
+
+This project serves as an independent, external test of the First Proof benchmark using current frontier AI. The outcomes are interesting either way: if the solutions align with the official answers, it validates frontier AI's potential for research-level mathematics. If not, it demonstrates how convincingly these systems generate plausible, coherent mathematical content — underscoring the importance of formal verification and expert scrutiny.
+
+## Links
+
+- [First Proof challenge](https://1stproof.org/)
+- [Challenge paper (arXiv:2602.05192)](https://arxiv.org/abs/2602.05192)
+- [New York Times article](https://www.nytimes.com/2026/02/07/science/mathematics-ai-proof-hairer.html)
+- `#1stProof`
+
+## Feedback
+
+Comments, corrections, and discussions welcome. Feel free to open an issue.
 
 ## License
 
