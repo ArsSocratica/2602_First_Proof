@@ -34,6 +34,28 @@ Only **P04** remains partial (the general case for n ≥ 4 is mathematically ope
 | P09 | Quadrilinear tensors | Multilinear algebra | **YES** — degree ≤ 4 | 9 | [PDF](04_papers/P09_paper.pdf) |
 | P10 | Preconditioned CG for CP | Numerical linear algebra | **YES** — cost bound proved | 12 | [PDF](04_papers/P10_paper.pdf) |
 
+## Time Spent
+
+All 10 problems were started on **February 10, 2026**. The entire project — from first prompt to final Lean verification — spanned **3 days** (Feb 10–12).
+
+| # | Problem | Sessions | Time | Dates |
+|---|---------|----------|------|-------|
+| P01 | Φ⁴₃ measure equivalence | 3 | — | Feb 10 |
+| P02 | Rankin–Selberg test vector | 5 | — | Feb 10–11 |
+| P03 | Markov chain / Macdonald | 4 | — | Feb 10 |
+| P04 | Finite free Stam inequality | 8+ | ~45 min* | Feb 10 |
+| P05 | Equivariant slice filtration | 6 | ~55 min | Feb 10 |
+| P06 | ε-light subsets | 12 | ~2+ hrs | Feb 10–12 |
+| P07 | Lattice acyclicity | 5 | — | Feb 10 |
+| P08 | Lagrangian smoothing | 3 | — | Feb 10 |
+| P09 | Quadrilinear tensors | 5 | — | Feb 10 |
+| P10 | Preconditioned CG for CP | 4 | ~32 min | Feb 10 |
+| | **Total** | **~55** | | **3 days** |
+
+*P04 time covers initial sessions only; later sessions added significantly more.
+
+Timestamps are from the AI interaction transcripts in `02_proofs/*/transcript.md`. Problems without recorded times (—) were completed in Windsurf/Cascade sessions where wall-clock time was not logged.
+
 ## Lean 4 Formalization
 
 1,932 lines of Lean 4 across 10 files, verified with Mathlib v4.27.0.
