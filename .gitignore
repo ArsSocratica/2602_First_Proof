@@ -41,6 +41,11 @@
 !05_lean_formalization/*.tex
 !05_lean_formalization/*.pdf
 
+# ---- 06: Methodology / Human-AI pipeline ----
+# (kept local — not published until ready)
+# !06_methodology/
+# !06_methodology/*
+
 # ---- Allow shared docs ----
 !shared/
 !shared/*.md
