@@ -4,7 +4,7 @@
 
 ---
 
-## Session 1 (Feb 8, 2026)
+## Session 1 (Feb 10, 2026)
 
 **Goal:** Kickoff — understand the problem, populate references, begin analysis.
 
@@ -15,7 +15,7 @@
   - **Family A (degree 2):** Swap equations from transposition symmetry of rank-1 tensors.
   - **Family B (degree 4):** Plücker relations from the Grassmannian structure of 4×4 determinants.
 
-## Session 2 (Feb 9, 2026)
+## Session 2 (Feb 10, 2026)
 
 **Goal:** Numerical verification and proof writing.
 
