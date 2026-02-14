@@ -41,14 +41,30 @@
 !05_lean_formalization/*.tex
 !05_lean_formalization/*.pdf
 
-# ---- 06: Methodology / Human-AI pipeline ----
+# ---- 06: Side-by-side analysis ----
+!06_sideBySide_analysis/
+!06_sideBySide_analysis/*/
+!06_sideBySide_analysis/*/*.tex
+!06_sideBySide_analysis/*/*.pdf
+!06_sideBySide_analysis/*/sections/
+!06_sideBySide_analysis/*/sections/*.tex
+
+# ---- 600: Methodology / Human-AI pipeline ----
 # (kept local — not published until ready)
-# !06_methodology/
-# !06_methodology/*
+# !600_methodology/
+# !600_methodology/*
+
+# ---- 800: JupyterBook (local draft) ----
+!800_jupyterbook/
+!800_jupyterbook/**
 
 # ---- Allow shared docs ----
 !shared/
 !shared/*.md
+
+# ---- Open Problem ----
+!OpenProblem/
+!OpenProblem/**
 
 # ---- Always exclude ----
 .DS_Store

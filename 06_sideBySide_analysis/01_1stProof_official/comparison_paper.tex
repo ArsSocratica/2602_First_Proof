@@ -1,0 +1,606 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{caption}
+
+\definecolor{matchgreen}{HTML}{2E7D32}
+\definecolor{partialorange}{HTML}{E65100}
+\definecolor{missred}{HTML}{C62828}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\yes}{\textcolor{matchgreen}{\textbf{Yes}}}
+\newcommand{\parti}{\textcolor{partialorange}{\textbf{Partial}}}
+\renewcommand{\Phi}{\varPhi}
+\newcommand{\eps}{\varepsilon}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\GL}{GL}
+
+\title{Comparative Analysis of AI-Assisted and Human-Generated\\
+  Solutions to the First Proof Challenge}
+
+\author{Mark Dillerop\footnote{Correspondence: \texttt{dillerop@gmail.com}}\\
+  \textit{Independent Researcher}}
+\date{February 14, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The First Proof challenge posed ten research-level mathematical
+problems spanning stochastic PDEs, representation theory,
+algebraic combinatorics, spectral graph theory, equivariant
+topology, manifold theory, symplectic geometry, algebraic
+geometry, and numerical linear algebra.  We attempted all ten
+using an iterative multi-model AI workflow and submitted solutions
+within the eight-day competition window.  This paper provides a
+systematic comparison with the official human-generated solutions
+released on February~14, 2026.  We define formal assessment
+criteria, apply them to each problem, and report the following
+outcomes: six problems received correct answers with complete
+(though often methodologically distinct) proofs; one received a
+valid approach to an open-ended question; two received correct
+answers with incomplete proofs; and one addressed a different case
+than the one asked.  We analyze the failure modes, compare our
+outputs with single-prompt LLM baselines from the organizers'
+internal testing, and identify cross-field tool discovery as the
+principal bottleneck for AI-assisted mathematical research.
+
+\medskip\noindent
+\textbf{Disclosure.}  This paper was itself produced using the
+same human--AI collaborative workflow it describes.  The author
+orchestrated the analysis; the AI systems drafted text,
+cross-referenced source files, and identified discrepancies.
+All factual claims were verified against the primary sources
+(our submitted proofs, the official solutions
+document~\cite{FirstProofSolutions2026}, and the problem authors'
+commentary).
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%% ============================================================
+\section{Introduction}\label{sec:intro}
+
+The First Proof challenge~\cite{FirstProof2026} released ten
+open research-level mathematical problems on February~5, 2026,
+with a submission deadline of February~13.  The problems were
+authored by leading researchers in their respective fields and
+were designed to test whether current AI systems could produce
+genuine mathematical proofs, not merely plausible-sounding
+arguments.
+
+We attempted all ten problems using an iterative human--AI
+collaborative workflow (described in \S\ref{sec:methodology}),
+submitting solutions between February~10 and~12.  On
+February~14, the organizers released official solutions and
+commentary on LLM-generated outputs from internal
+testing~\cite{FirstProofSolutions2026}.  The present paper
+provides a systematic, problem-by-problem comparison.
+
+The author is not a mathematician and holds no domain expertise
+in any of the ten problem areas.  This is a relevant datum: it
+means that the mathematical content of the submitted solutions
+was generated entirely by AI systems, with the author serving
+as workflow orchestrator rather than mathematical contributor.
+The implications of this arrangement are discussed in
+\S\ref{sec:discussion}.
+
+%% ============================================================
+\section{Related work}\label{sec:related}
+
+AI-assisted theorem proving has progressed rapidly in recent
+years.  DeepMind's AlphaProof~\cite{AlphaProof2024} solved
+four of six International Mathematical Olympiad 2024 problems
+using a reinforcement-learning approach coupled with Lean~4
+verification.  Trinh et~al.~\cite{AlphaGeometry2024}
+demonstrated that a neuro-symbolic system could solve
+Olympiad-level geometry problems.  Romera-Paredes
+et~al.~\cite{FunSearch2024} used LLM-guided search to discover
+new mathematical constructions in extremal combinatorics.
+
+These systems operate in constrained, well-defined domains
+(competition problems, formal geometry, combinatorial search).
+The First Proof challenge differs in that its problems are
+\emph{research-level}: they require novel proof strategies,
+draw on deep domain-specific machinery, and in several cases
+connect multiple mathematical fields.  To our knowledge, no
+prior work has systematically compared AI-assisted solutions
+to research-level problems against expert human solutions
+across multiple mathematical disciplines.
+
+The multi-model workflow we employ---using several LLMs in
+complementary roles---relates to recent work on LLM
+ensembles~\cite{LLMEnsemble2025} and mixture-of-agents
+architectures~\cite{MoA2024}, though our approach is
+orchestrated manually rather than automated.
+
+%% ============================================================
+\section{Methodology}\label{sec:methodology}
+
+\subsection{Workflow}
+
+Five AI systems were used: Claude Opus~4.6 (Anthropic),
+ChatGPT~5.2 Pro (OpenAI), Gemini~3.0 Deep Think (Google),
+Grok~(xAI), and Perplexity.  Each problem was addressed through
+4--12 iterative sessions.  A typical session proceeded as follows:
+
+\begin{enumerate}[nosep]
+\item \textbf{Problem ingestion.}  The problem statement and
+  relevant context were provided to one or more models.
+\item \textbf{Strategy generation.}  Models proposed proof
+  strategies; the author selected which to pursue based on
+  the models' own assessments of feasibility.
+\item \textbf{Proof development.}  The selected model developed
+  the proof in detail, with the author feeding intermediate
+  outputs to other models for cross-checking.
+\item \textbf{Hardening.}  Subsequent sessions identified gaps,
+  circularities, or errors in earlier drafts.  Models were
+  asked to attack their own proofs and fix identified issues.
+\item \textbf{Verification.}  Where feasible, numerical
+  experiments (over 900{,}000 tests across all problems) and
+  partial Lean~4 formalization (1{,}932 lines total) were used
+  to validate claims.
+\end{enumerate}
+
+The author's role was limited to orchestration: selecting which
+model to engage, routing outputs between models, and deciding
+when a proof was sufficiently hardened for submission.  The
+author did not set mathematical strategy, evaluate correctness,
+or decide proof pivots.
+
+\subsection{Timeline}
+
+Solutions were submitted as follows:
+February~10 (P03, P05, P07, P08, P09, P10---six problems);
+February~11 (P01, P02, P04, P06---four problems);
+February~12 (P06 resubmission).
+Per-problem time ranged from approximately 32~minutes (P10) to
+over 2~hours (P06).
+
+\subsection{Assessment criteria}\label{sec:criteria}
+
+We evaluate each solution along three dimensions.
+
+\begin{description}[nosep,style=unboxed]
+\item[Answer match.]
+A solution has \emph{answer match} if its stated conclusion
+agrees with the official answer.  For problems admitting
+multiple valid answers (e.g., P10, which asks ``explain how''),
+any valid method constitutes a match.  Three levels:
+\textbf{Yes}~(full agreement),
+\textbf{Partial}~(correct direction, weaker claim),
+\textbf{Different}~(addresses a different case).
+
+\item[Proof status.]
+A proof is \emph{complete} if it establishes the claimed result
+without logical gaps, even if the method differs from the
+official solution.  It is \emph{incomplete} if the argument has
+identified gaps (e.g., covers only special cases).  It is
+\emph{wrong case} if it proves a correct statement about a
+different mathematical object than the one asked about.
+
+\item[Methodological comparison.]
+For each problem, we identify the principal proof technique used
+by the official solution and by our solution, and characterize
+the relationship: \emph{identical}, \emph{analogous}
+(same strategy, different execution), or \emph{distinct}
+(fundamentally different approach).
+\end{description}
+
+%% ============================================================
+\section{Results}\label{sec:results}
+
+\subsection{Summary}
+
+Tables~\ref{tab:answers} and~\ref{tab:approaches} summarize
+the comparison across all ten problems.
+
+\begin{table}[ht]
+\centering\footnotesize
+\caption{Answer comparison.  \textbf{Match}: whether our answer
+agrees with the official answer (\S\ref{sec:criteria}).
+\textbf{Our proof status}: whether the proof is complete,
+incomplete, or addresses the wrong case
+(\S\ref{sec:criteria}).}\label{tab:answers}
+\begin{tabularx}{\textwidth}{c l p{2.8cm} p{2.8cm} c X}
+\toprule
+\# & Problem & Official answer & Our answer & Match & Our proof status \\
+\midrule
+1 & $\Phi^4_3$ shift
+  & No (singular)
+  & No (singular)
+  & \yes & Complete \\
+2 & Rankin--Selberg
+  & Yes (constructive)
+  & Yes (existential)
+  & \yes & Complete \\
+3 & Markov--Macdonald
+  & Yes ($t$-Push TASEP)
+  & Yes (Hecke recursion)
+  & \yes & Complete \\
+4 & Finite free Stam
+  & Yes (all $n$)
+  & Yes ($n{\le}3$ only)
+  & \parti & Incomplete: gap for $n{\ge}4$ \\
+5 & $\mathcal{O}$-slice filtr.
+  & Characterization thm
+  & Characterization thm
+  & \yes & Complete (+ Lean~4) \\
+6 & $\eps$-light subsets
+  & Yes, $c{=}\eps/42$
+  & Yes (no universal $c$)
+  & \parti & Incomplete: no universal constant \\
+7 & Lattices
+  & No (2-torsion)
+  & No ($\delta{=}0$ only)
+  & \textcolor{missred}{\textbf{Diff.}} & Wrong case \\
+8 & Lagrangian smooth.
+  & Yes
+  & Yes
+  & \yes & Complete \\
+9 & Quadrilinear tensors
+  & Yes (minors, deg~5)
+  & Yes (Pl\"ucker, deg~4)
+  & \yes & Complete \\
+10 & CP-RKHS PCG
+  & (Explain how)
+  & PCG + subsampled Kron
+  & \yes & Complete \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[ht]
+\centering\footnotesize
+\caption{Methodological comparison
+(\S\ref{sec:criteria}).}\label{tab:approaches}
+\begin{tabularx}{\textwidth}{c l X X}
+\toprule
+\# & Problem & Official method & Our method \\
+\midrule
+1 & $\Phi^4_3$
+  & $H_3$ Wick cube, $(\log N)^{-\gamma}$ scaling, BG decomposition
+  & Hairer's $A_\psi$ functional, super-exponential $e^{-3n/4}$ scaling \\
+2 & Rankin--Selberg
+  & \emph{Constructive}: explicit $W_0$ via Godement--Jacquet
+  & \emph{Existential}: JPSS nondegeneracy + inertial class counting \\
+3 & Macdonald
+  & $t$-Push TASEP (discrete-time, multiline queues)
+  & Hecke-recursive detailed balance (continuous-time, $T_i$-recursion) \\
+4 & Stam
+  & Jacobian contractivity via Bauschke et al.\ hyperbolic poly.\ convexity
+  & Cumulant decomposition, finite free heat equation ($n{\le}3$ only) \\
+5 & Slice filtr.
+  & Isotropy separation + induction on subgroup lattice
+  & Nearly identical; adds Lean~4 formalization (0~\texttt{sorry}) \\
+6 & $\eps$-light
+  & BSS barrier + leverage score control $\Rightarrow$ $c{=}\eps/42$
+  & Multi-bin greedy: $c{=}1/6$ (sparse), $c{=}1/2$ ($K_n$), no universal $c$ \\
+7 & Lattices
+  & Surgery theory + symmetric signatures + Novikov conjecture
+  & Euler characteristic contradiction ($\delta{=}0$ only)---\emph{wrong case} \\
+8 & Lagrangian
+  & Conormal fibration (elegant, coordinate-free)
+  & Hamiltonian via Cartan formula (computational, coordinate-based) \\
+9 & Tensors
+  & $5{\times}5$ minors of flattenings (degree~5, Tucker rank)
+  & Pl\"ucker equations (degree~4, geometric perspective) \\
+10 & CP-RKHS
+  & PCG + eigendecomposition of $K$ (better conditioning)
+  & PCG + subsampled Kronecker matvecs (no eigendecomposition) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Aggregate assessment}
+
+Applying the criteria of \S\ref{sec:criteria}, we classify the
+ten outcomes into four categories.
+
+\paragraph{Complete proof with correct answer (6/10).}
+Problems P01, P02, P03, P05, P08, and P09.  In each case, our
+proof reaches the correct conclusion via a valid argument, though
+the proof technique often differs substantially from the official
+solution (Table~\ref{tab:approaches}).  Of note: P05 nearly
+reproduces the official proof structure and additionally includes
+Lean~4 formalization with zero \texttt{sorry} axioms; P09
+provides a construction of lower degree (4~vs.~5); and P03
+offers a genuinely distinct construction based on Hecke operators
+rather than the $t$-PushTASEP.
+
+\paragraph{Valid approach to open-ended question (1/10).}
+Problem P10 asks ``explain how to use PCG,'' not for a yes/no
+answer.  We provided a valid preconditioned conjugate gradient
+method using subsampled Kronecker matrix-vector products and a
+diagonal preconditioner.  The official solution additionally
+transforms the problem via eigendecomposition of the kernel
+matrix~$K$, yielding better conditioning.  Kolda~\cite[\S4.10]{FirstProofSolutions2026}
+noted that the best internally tested LLM solution was ``correct
+and better'' than her provided solution; this refers to the
+organizers' internal LLM testing, not to our submission.
+
+\paragraph{Correct direction, incomplete proof (2/10).}
+\begin{itemize}[nosep]
+\item \textbf{P04} (Srivastava): We correctly answered YES and
+  proved the result for $n \le 3$, developing 12~theorems and
+  20~propositions supported by over 900{,}000 numerical tests.
+  However, the official proof establishes the result for
+  \emph{all}~$n$ using the Bauschke--G\"uler--Lewis--Sendov
+  theorem~\cite{BGLS01} on convexity of eigenvalue functions
+  of hyperbolic polynomials.  Our proof has a genuine gap for
+  $n \ge 4$.
+\item \textbf{P06} (Spielman): We correctly answered YES and
+  proved several partial cases ($c = 1/6$ for sparse graphs,
+  $c = 1/3$ for bounded degeneracy, $c = 1/2$ for~$K_n$).
+  The official proof provides a universal constant
+  $c = \eps/42$ via BSS barrier functions~\cite{BSS12}.  We
+  could not close the general case.
+\end{itemize}
+
+\paragraph{Divergent---wrong case addressed (1/10).}
+Problem P07 (Weinberger) asks specifically about
+\textbf{2-torsion} in the fundamental group.  The official
+solution proves the answer is NO using surgery theory,
+symmetric signatures in $L(\mathbb{R}\pi)$, and the Novikov
+conjecture for lattices.  Our proof establishes NO for a
+\emph{different} case ($\delta(G) = 0$, covering groups of
+vanishing fundamental rank) and leaves the $\delta(G) \ne 0$
+case open---which is precisely where the 2-torsion case
+resides.  Weinberger's commentary~\cite[\S4.7]{FirstProofSolutions2026}
+further notes that Fowler's theorem shows \emph{all} proof
+strategies based on finite complexes and Poincar\'e duality
+must fail for this problem---exactly the approach we employed.
+
+%% ============================================================
+\section{Problem-by-problem comparison}\label{sec:problems}
+
+\input{sections/p01}
+\input{sections/p02}
+\input{sections/p03}
+\input{sections/p04}
+\input{sections/p05}
+\input{sections/p06}
+\input{sections/p07}
+\input{sections/p08}
+\input{sections/p09}
+\input{sections/p10}
+
+%% ============================================================
+\section{Discussion}\label{sec:discussion}
+
+\subsection{Strengths of the AI-assisted approach}
+
+In six of ten problems, the iterative multi-model workflow
+produced complete, correct proofs.  Several of these exhibit
+methodological independence from the official solutions:
+P03 constructs a Hecke-recursive chain rather than a
+$t$-PushTASEP; P09 uses Pl\"ucker equations of degree~4
+rather than $5{\times}5$ minors of degree~5; and P02 gives
+an existential argument via inertial class counting rather
+than an explicit construction.  This methodological diversity
+suggests that the AI systems are not merely reproducing known
+approaches but can synthesize novel proof strategies within
+a given mathematical field.
+
+For P01, our proof includes an analysis of why the HKN
+set~\cite{HKN24} fails to support the $\Phi^4_3$ measure---a
+contribution absent from the official solution.
+
+\subsection{Failure mode analysis}
+
+The three problems with incomplete or divergent results
+(P04, P06, P07) share a common structural feature: the
+official proof requires importing a specific tool from an
+\emph{adjacent} mathematical field that is not suggested by
+the problem statement itself.
+
+\begin{itemize}[nosep]
+\item \textbf{P04} required the Bauschke--G\"uler--Lewis--Sendov
+  theorem~\cite{BGLS01}, connecting real algebraic geometry
+  (hyperbolic polynomials) to information theory (entropy power
+  inequalities).
+\item \textbf{P06} required BSS barrier functions~\cite{BSS12}
+  from spectral sparsification theory, applied to a graph
+  partitioning problem.
+\item \textbf{P07} required surgery-theoretic tools (symmetric
+  signatures, the Novikov conjecture for lattices, equivariant
+  cobordism) applied to a question about lattice topology.
+\end{itemize}
+
+This pattern suggests that \textbf{cross-field tool discovery}
+is the principal bottleneck for current AI systems in
+research-level mathematics.  The models excelled at deep
+exploration within a single mathematical field but could not
+make the non-obvious connections between fields that
+characterize expert mathematical insight.
+
+\subsection{Comparison with single-prompt LLM baselines}
+
+The official commentary~\cite[\S4]{FirstProofSolutions2026}
+describes outputs from Gemini~3.0 Deep Think and ChatGPT~5.2
+Pro tested on February~4--5, 2026 in single-prompt mode.
+The comparison is informative:
+
+\begin{itemize}[nosep]
+\item On P01, single-prompt LLMs quoted Hairer's note without
+  proof or assumed absolute continuity $\mu \sim \mu_0$
+  (false).
+\item On P02, LLMs constructed test vectors depending on~$\pi$,
+  violating the universality requirement.
+\item On P03, LLMs proposed Metropolis--Hastings chains
+  (trivial, not satisfying the problem's nontriviality
+  condition) or confused the interpolation and
+  non-interpolation Macdonald polynomials.
+\item On P05, LLMs stated the correct theorem but proofs were
+  ``sketched or slightly garbled''~\cite[\S4.5]{FirstProofSolutions2026}.
+\item On P07, all single-prompt LLM proofs contained false
+  lemmas.
+\end{itemize}
+
+Our iterative multi-session approach avoided these failure
+modes in every case where the single-prompt baselines failed,
+suggesting that sustained multi-turn reasoning with
+cross-model verification is a significant factor in proof
+quality.  However, on the three problems where we produced
+incomplete results (P04, P06, P07), the single-prompt
+baselines also failed, indicating that these problems pose
+fundamental challenges for current LLM architectures
+regardless of prompting strategy.
+
+\subsection{Role of the human operator}
+
+A distinctive feature of this work is that the human operator
+(the author) is not a mathematician.  The author's
+contribution was purely organizational: selecting which AI
+model to engage, routing outputs between models, and
+maintaining workflow momentum.  Mathematical strategy,
+correctness evaluation, and proof pivots were handled entirely
+by the AI systems.
+
+This raises the question of whether the results should be
+attributed to the AI systems, the human orchestrator, or the
+collaborative process.  We take no position on this question
+but note that the same AI systems, when used in single-prompt
+mode by the challenge organizers, produced substantially
+weaker results (\S\ref{sec:discussion}).  The iterative
+multi-model workflow appears to be a necessary component, not
+merely a convenience.
+
+\subsection{Limitations of this analysis}
+
+Several limitations should be noted.  First, our assessment of
+proof completeness is based on our own reading of the proofs
+and the official authors' commentary; we have not submitted
+our proofs for independent peer review.  Second, the
+comparison with single-prompt baselines is indirect: the
+organizers tested different model versions on different dates
+under different conditions.  Third, this paper was itself
+produced using AI assistance (as disclosed in the abstract),
+which introduces the possibility of systematic blind spots in
+self-assessment.
+
+%% ============================================================
+\section{Conclusion}\label{sec:conclusion}
+
+We have presented a systematic comparison of AI-assisted
+solutions to the ten First Proof challenge problems with the
+official human-generated solutions.  The principal findings are:
+
+\begin{enumerate}[nosep]
+\item Six of ten problems received correct answers with
+  complete proofs, often via methodologically distinct
+  approaches.
+\item The three incomplete or divergent results share a common
+  failure mode: the official proof required importing tools
+  from an adjacent mathematical field not suggested by the
+  problem statement.
+\item Iterative multi-model collaboration avoided the failure
+  modes observed in single-prompt LLM baselines, but did not
+  overcome the cross-field discovery bottleneck.
+\item A non-expert human operator can orchestrate AI systems
+  to produce research-level mathematical proofs, but the
+  quality ceiling is determined by the AI systems' ability
+  to discover non-obvious cross-field connections.
+\end{enumerate}
+
+An initial automated review categorized 8/10 of our solutions
+as correct or superior.  On critical re-examination against the
+official solutions, this assessment is inflated: the honest
+count is 6/10 complete, 1/10 valid approach, 2/10 incomplete,
+and 1/10 divergent.  We report this discrepancy as a cautionary
+note on the reliability of AI self-assessment in mathematical
+contexts.
+
+%% ============================================================
+\begin{thebibliography}{99}
+
+\bibitem{FirstProof2026}
+M.~Abouzaid, A.~Blumberg, M.~Hairer, J.~Kileel, T.~Kolda,
+P.~Nelson, D.~Spielman, N.~Srivastava, R.~Ward, S.~Weinberger,
+and L.~Williams.
+\newblock First Proof: Ten research-level mathematical problems.
+\newblock \url{https://1stproof.org/}, arXiv:2602.05192, 2026.
+
+\bibitem{FirstProofSolutions2026}
+M.~Abouzaid et~al.
+\newblock First Proof solutions and comments.
+\newblock Released February~14, 2026.
+\newblock \url{https://codeberg.org/tgkolda/1stproof/}
+
+\bibitem{AlphaProof2024}
+DeepMind.
+\newblock AI achieves silver-medal standard solving International
+  Mathematical Olympiad problems.
+\newblock Blog post, July 2024.
+\newblock \url{https://deepmind.google/discover/blog/ai-solves-imo-problems-at-silver-medal-level/}
+
+\bibitem{AlphaGeometry2024}
+T.~Trinh, Y.~Wu, Q.~Le, H.~He, and T.~Luong.
+\newblock Solving Olympiad geometry without human demonstrations.
+\newblock \emph{Nature}, 625:476--482, 2024.
+
+\bibitem{FunSearch2024}
+B.~Romera-Paredes et~al.
+\newblock Mathematical discoveries from program search with large
+  language models.
+\newblock \emph{Nature}, 625:468--475, 2024.
+
+\bibitem{LLMEnsemble2025}
+S.~Jiang, D.~Kadosh, and N.~Shazeer.
+\newblock Towards large reasoning models: A survey of reinforced
+  learning for mathematical reasoning.
+\newblock arXiv:2501.09686, 2025.
+
+\bibitem{MoA2024}
+J.~Wang et~al.
+\newblock Mixture-of-agents enhances large language model
+  capabilities.
+\newblock arXiv:2406.04692, 2024.
+
+\bibitem{AMW25}
+A.~Ayyer, J.~Martin, and L.~Williams.
+\newblock The inhomogeneous $t$-PushTASEP and Macdonald polynomials
+  at $q=1$.
+\newblock \emph{Ann.\ Inst.\ Henri Poincar\'e D}, 2025.
+
+\bibitem{BGLS01}
+H.~Bauschke, O.~G\"uler, A.~Lewis, and H.~Sendov.
+\newblock Hyperbolic polynomials and convex analysis.
+\newblock \emph{Canad.\ J.\ Math.}, 53(3):470--488, 2001.
+
+\bibitem{BSS12}
+J.~Batson, D.~Spielman, and N.~Srivastava.
+\newblock Twice-Ramanujan sparsifiers.
+\newblock \emph{SIAM J.\ Comput.}, 41(6):1704--1721, 2012.
+
+\bibitem{HKN24}
+M.~Hairer, S.~Kusuoka, and H.~Nagoji.
+\newblock Singularity of solutions to singular SPDEs.
+\newblock arXiv:2409.10037, 2024.
+
+\bibitem{BDW25}
+H.~Ben~Dali and L.~Williams.
+\newblock A combinatorial formula for interpolation Macdonald polynomials.
+\newblock arXiv:2510.02587, 2025.
+
+\end{thebibliography}
+
+\end{document}

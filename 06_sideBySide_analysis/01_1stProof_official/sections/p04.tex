@@ -1,0 +1,76 @@
+% ============================================================
+\subsection{Problem 4: Finite free Stam inequality}
+\label{sec:p04}
+
+\paragraph{Official solution (Garza Vargas--Srivastava--Stier).}
+The official proof is \emph{complete for all~$n$} and follows a
+three-step strategy \`a la Blachman:
+\begin{enumerate}[nosep]
+\item \textbf{Score vectors as derivatives} (Lemma~1.1):
+  under reverse heat flow $p_t = p \boxplus_n \sqrt{t}\,\mathrm{He}_n$,
+  the roots satisfy $\alpha_i'(0) = J_n(\alpha)_i$.
+\item \textbf{Jacobian contractivity} (Proposition~2.1):
+  $\|J_{\boxplus_n}(u,v)\|^2 \le \|u\|^2 + \|v\|^2$ for
+  $u, v \perp \mathbf{1}_n$.
+\item \textbf{Blachman's argument}: choose
+  $a = 1/\|J_n(\alpha)\|$, $b = 1/\|J_n(\beta)\|$, and combine.
+\end{enumerate}
+The key insight is the use of the Bauschke--G\"uler--Lewis--Sendov
+theorem~\cite{BGLS01} on convexity of eigenvalue functions of
+hyperbolic polynomials: the Hessians $H^{(i)}_{\boxplus_n}$ satisfy
+$\sum c_i H^{(i)} \succeq 0$ for ordered~$c_i$, via hyperbolicity
+of the finite free convolution polynomial.
+
+\paragraph{Our solution.}
+We obtained the correct answer (\textbf{Yes}) and proved the
+inequality for $n = 2$ (exact equality) and $n = 3$ (explicit formula).
+We developed extensive supporting theory:
+\begin{itemize}[nosep]
+\item Finite free heat equation (Theorem~6):
+  $dp_t/dt = -p_t''/2$.
+\item Root velocity equals score (Corollary~6.1):
+  $\lambda_i'(t) = p''(\lambda_i)/(2p'(\lambda_i))$.
+\item Finite de Bruijn identity (Theorem~7):
+  $d/dt \log \Delta(p_t) = \Phi_n(p_t)$.
+\item $\Phi_n$ monotonicity (Theorem~8):
+  $\Phi' = -2\sum_{i<j} (h_i - h_j)^2/(\lambda_i - \lambda_j)^2 \le 0$.
+\item $J$-concavity for $n = 3$ (Theorem~11):
+  $J(t) = 1/\Phi(p_t)$ is concave.
+\end{itemize}
+In total: 12~theorems, 20+~propositions, 900{,}000+ numerical tests
+with zero violations.  The general case remained open: the gap was
+the generalized concavity of a remainder term $r(\sigma)$ along
+contraction paths.
+
+\paragraph{Assessment.}
+This is the largest gap between our work and the official solution.
+The official proof is complete; ours covers only $n \le 3$.
+Our approach (cumulant decomposition, explicit remainder analysis)
+is fundamentally different from theirs (Jacobian contractivity via
+hyperbolic polynomial theory).
+
+The missing ingredient---the Bauschke et~al.\ convexity
+theorem---connects real algebraic geometry to information theory
+in a non-obvious way.  Despite extensive search (8+ sessions),
+we did not discover this connection.  However, our finite free
+heat equation, de Bruijn identity, and score--root identities are
+genuine new results not present in the official solution.
+
+The official commentary describes exactly the difficulty we
+encountered: the LLM tried Blachman's approach but could not find
+the joint probability space analogue.
+
+\paragraph{Author feedback.}
+Srivastava~\cite[\S4.4]{FirstProofSolutions2026}: ``The LLM tried
+Blachman's approach but couldn't find the joint probability space
+analogue.''
+This is exactly the difficulty we encountered.  The official authors
+resolved it via the Bauschke--G\"uler--Lewis--Sendov
+theorem~\cite{BGLS01} on hyperbolic polynomial convexity---a
+connection between real algebraic geometry and information theory
+that we did not discover despite 8+ sessions of exploration.
+
+\medskip\noindent
+\textbf{Verdict:} \yes\ answer, \parti\ proof ($n \le 3$ only;
+official proof is complete for all~$n$).
+\textbf{Correct direction, incomplete proof.}

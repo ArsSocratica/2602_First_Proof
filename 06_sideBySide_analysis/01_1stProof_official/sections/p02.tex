@@ -1,0 +1,56 @@
+% ============================================================
+\subsection{Problem 2: Rankin--Selberg universal test vectors}
+\label{sec:p02}
+
+\paragraph{Official solution (Nelson).}
+The proof uses the Godement--Jacquet functional equation as its
+main tool.  It constructs an explicit Whittaker function
+$W_0(g) = \int_{N_n} \mathbf{1}_{K_n}(xg)\,\psi(x)\,dx$
+and relates the $u_Q$-twisted Rankin--Selberg integral to an
+integral over $K_1(\mathfrak{q})$ via Schwartz--Bruhat functions
+$\beta, \beta^\sharp$ and their Mellin transforms (Lemma~5).
+The final result is an explicit formula
+$\ell_{\mathrm{RS}}(s,\, u_Q W_0,\, d_Q V) = c\,|Q|^{-n/2}$,
+a monomial in $|Q|^s$, hence nonzero for all~$s$.
+The proof is six pages and completely self-contained.
+
+\paragraph{Our solution.}
+We obtained the same $u_Q$-twist formula
+\[
+  W\bigl(\diag(g,1)\,u_Q\bigr)
+  = \psi^{-1}(Q\,g_{nn})\,W\bigl(\diag(g,1)\bigr)
+\]
+and used the same monomial-in-$q^{-s}$ strategy.
+For universality, we used an existential argument:
+JPSS nondegeneracy combined with the observation that the ``bad
+locus'' $B_\pi$ depends only on the \emph{inertial} equivalence
+class $[\pi]$ (orbit under unramified twists), and inertial classes
+are countable.  A $\mathbb{C}$-vector space cannot be a countable
+union of proper subspaces, yielding the desired~$W$.
+
+For $n = 1$ ($\GL_2 \times \GL_1$), we gave a fully rigorous
+argument via Gauss sums, matching the official solution's
+treatment of this base case.
+
+\paragraph{Assessment.}
+The official proof is \emph{constructive} (explicit $W_0$, explicit
+integral computation); ours is \emph{existential} (dimension counting
+over inertial classes).  Both are mathematically valid.
+Our inertial class observation---that $B_\pi$ depends only on
+$[\pi]$, not on $\pi$ itself---is a genuine insight not present
+in the official proof.
+The official commentary notes that the best LLM attempt reduced to
+the same key integral but failed on the nonvanishing step; our proof
+handles this correctly.
+
+\paragraph{Author feedback.}
+Nelson~\cite[\S4.2]{FirstProofSolutions2026}: ``The best attempt
+[\ldots] reduced to the same key integral but failed on the
+nonvanishing step.''
+LLMs constructed $W$ depending on~$\pi$ (wrong---universality
+requires independence).  Our proof correctly handles universality
+via the inertial class countability argument.
+
+\medskip\noindent
+\textbf{Verdict:} \yes\ answer, \yes\ proof (different strategy).
+\textbf{Correct with complete proof.}

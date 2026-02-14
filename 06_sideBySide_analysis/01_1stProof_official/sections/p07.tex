@@ -1,0 +1,73 @@
+% ============================================================
+\subsection{Problem 7: Lattices and $\mathbb{Q}$-acyclicity}
+\label{sec:p07}
+
+\paragraph{Official solution (Cappell--Weinberger--Yan).}
+The official proof addresses the specific case of 2-torsion and
+proves the answer is \textbf{No}.
+The argument reduces (WLOG) to $\Gamma = \pi \rtimes \mathbb{Z}_2$
+with an involution on $M = K \backslash G / \pi$.
+It uses symmetric signatures in $L(\mathbb{R}\pi)$, the Novikov
+conjecture (true for lattices via assembly map injectivity), and
+equivariant cobordism.
+The key contradiction: for $Y$ (free $\mathbb{Z}_2$-action on a
+$\mathbb{Q}$-acyclic manifold), the symmetric signature image is~0;
+for $M$ (isometric action on the locally symmetric space), the image
+is nonzero because the fixed set is aspherical.
+
+\paragraph{Our solution.}
+We proved partial results covering different cases:
+\begin{itemize}[nosep]
+\item \textbf{Case 1} ($\delta(G) = 0$, all torsion):
+  Euler characteristic contradiction.
+  $\mathbb{Q}$-acyclicity forces $\chi(M) = \chi_{\mathbb{Q}}(\Gamma) \ne 0$
+  via the Cartan--Leray spectral sequence and Wall's theorem,
+  while $L^2$-Betti number vanishing forces $\chi(M) = 0$.
+\item \textbf{Case 2} ($G \cong \mathrm{SL}(2,\mathbb{C})$, $d = 3$):
+  dimension-forcing plus Perelman's geometrization gives asphericity,
+  forcing $\Gamma$ torsion-free---contradiction.
+\item \textbf{Case 2b} ($d = 4$): vacuous---no connected real
+  semisimple $G$ without compact factors has $\delta(G) \ne 0$ and
+  $\dim(G/K) = 4$.
+\item \textbf{Case 3} ($\delta(G) \ne 0$, $d \ge 5$): open.
+  A thorough analysis of surgery-theoretic obstructions reveals
+  no obstruction.
+\end{itemize}
+
+\paragraph{Assessment.}
+The official proof handles the 2-torsion case directly using surgery
+theory and symmetric signatures---a completely different approach from
+our Euler characteristic argument.  Our $\delta(G) = 0$ case is
+correct but uses an obstruction that vanishes when $\delta \ne 0$.
+
+The official commentary identifies a specific false lemma in LLM
+proofs (about Lefschetz numbers) and notes that Fowler's theorem
+shows proofs using only finite complex plus Poincar\'e duality must
+fail.  This is exactly the barrier we encountered in Case~3.
+
+Our analysis of the $d = 4$ vacuousness (checking all rank-2 groups)
+is a genuine contribution.
+
+\paragraph{Author feedback.}
+Weinberger~\cite[\S4.7]{FirstProofSolutions2026}: ``All proofs by
+AI's I've seen only use finite complex and Poincar\'e duality.''
+He shows this approach is fundamentally doomed: Fowler's theorem
+constructs a space
+$M_3 \times (K \backslash G / \Gamma_0 \times E\Delta)/\Delta$
+(where $M_3$ is any closed hyperbolic 3-manifold) that has the
+rational type of a finite complex, satisfies rational Poincar\'e
+duality, and has fundamental group
+$\pi_1(M_3) \times \Gamma$---a lattice in $\mathrm{SO}(3,1) \times G$.
+This proves that \emph{all} proof strategies based solely on finite
+complexes and Poincar\'e duality must fail.  Our proof fell into
+exactly this trap for the $\delta(G) \neq 0$ case.
+
+Weinberger also identifies a specific false lemma in LLM proofs:
+``The counterexample is $\mathbb{R}^1$ and $f$ is a translation.
+It has no fixed points, but its Lefschetz number in their sense
+is~$-1$.''
+
+\medskip\noindent
+\textbf{Verdict:} Answer No for $\delta = 0$, but does not
+cover the specific 2-torsion case asked by the problem.
+\textbf{Divergent---wrong case covered.}

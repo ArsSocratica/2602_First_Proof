@@ -1,0 +1,61 @@
+% ============================================================
+\subsection{Problem 6: $\eps$-light subsets}
+\label{sec:p06}
+
+\paragraph{Official solution (Spielman).}
+The official proof is \emph{complete} with constant $c = 1/42$
+(i.e., $|S| \ge \eps n / 42$).
+It uses a greedy construction, adding vertices one at a time,
+controlled by a modified BSS barrier function~\cite{BSS12}:
+\[
+  \Phi^u_\sigma(A)
+  = \sum_{i=1}^{\sigma} \frac{1}{u - \lambda_i(A)}
+\]
+tracking only the top-$\sigma$ eigenvalues.
+The key lemma (Lemma~1.2) shows that at each step, one can find a
+vertex~$t$ such that both the barrier $\Phi$ remains bounded and
+the leverage score $\ell(S) \le 4|S|$ is maintained.
+The proof uses the Ky Fan eigenvalue inequality and the
+Sherman--Morrison--Woodbury formula.
+
+\paragraph{Our solution.}
+We obtained the correct answer (\textbf{Yes}) but with an
+\emph{incomplete} proof.  Our proved results include:
+\begin{itemize}[nosep]
+\item $c \le 1/2$ (tight upper bound, via disjoint cliques).
+\item $c = 1/6$ for sparse graphs ($\bar{d} \le 6/\eps - 1$).
+\item $c = 1/2$ for complete graphs $K_n$ (direct spectral argument).
+\item $c = 1/3$ for graphs with degeneracy $< \lceil 3/\eps \rceil$.
+\item Extensive computational verification: multi-bin greedy with
+  $k = \lceil 2/\eps \rceil$ bins never gets stuck across 16+ graph
+  families, $n \le 100$, $\eps \in \{0.1, \ldots, 0.5\}$.
+\end{itemize}
+The gap: we could not prove that greedy always finds a bin with
+$\mu_{\max} < 1$ at every step.
+
+\paragraph{Assessment.}
+The official proof uses a BSS-type barrier from spectral
+sparsification---a specific technique from theoretical computer
+science that we did not employ.  Our approach (multi-bin greedy with
+effective resistance analysis) is different and more computational.
+
+The official commentary notes that Gemini's proof was vague and
+GPT-Pro only gave the upper bound $c \le 1/2$.  Our partial results
+(four proved theorems, extensive computation) go well beyond both
+LLM attempts.
+
+\paragraph{Author feedback.}
+Spielman~\cite[\S4.6]{FirstProofSolutions2026}: ``Gemini asserted
+that it presented a proof [\ldots] But, after some correct
+statements, it presented a very vague explanation of how the proof
+could be finished.  To me, it seems unlikely that the approach can
+be turned into a correct proof.''
+ChatGPT~5.2 Pro only offered the upper bound $c \le 1/2$.
+Our partial results (four proved theorems, log-det barrier, Barbell
+graph identification, extensive computation across 16+ graph
+families) go substantially beyond both LLM attempts.
+
+\medskip\noindent
+\textbf{Verdict:} \yes\ answer, \parti\ proof (no universal
+constant; official proves $c = \eps/42$).
+\textbf{Correct direction, incomplete proof.}

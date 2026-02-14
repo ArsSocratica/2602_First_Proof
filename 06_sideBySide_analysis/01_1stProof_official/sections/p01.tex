@@ -1,0 +1,54 @@
+% ============================================================
+\subsection{Problem 1: $\Phi^4_3$ measure equivalence under smooth shifts}
+\label{sec:p01}
+
+\paragraph{Official solution (Hairer).}
+The official proof constructs a separating set
+\[
+  B_\gamma := \Bigl\{ u \in \mathcal{D}' :
+    \lim_{N\to\infty} (\log N)^{-\gamma}
+    \bigl\langle H_3(P_N u;\, c_N) + 9\,c_{N,2}\,P_N u,\; \psi
+    \bigr\rangle = 0 \Bigr\}
+\]
+using the Wick cube $H_3$ with polynomial-in-$\log$ scaling
+$(\log N)^{-\gamma}$.  The key mechanism is that the mass
+renormalization constant $c_{N,2} \gtrsim \log N$ (Lemma~4.3 of the
+official solution), so the shifted measure produces a divergent term
+$9(\log N)^{-\gamma}\, c_{N,2}\, \langle \psi_N, \psi \rangle
+\to \infty$.
+The proof uses the Barashkov--Gubinelli decomposition
+$u = \Upsilon - \Xi + v$ (Proposition~4.1) and is self-contained
+with four detailed lemmas (4.2--4.5).
+
+\paragraph{Our solution.}
+We obtained the correct answer (\textbf{No}: $\mu \perp T_\psi^*\mu$
+for any nonzero smooth~$\psi$) and constructed a separating set using
+Hairer's 2022 note functional~$A_\psi$ with super-exponential
+mollification ($\varepsilon_n = e^{-e^n}$) and scaling~$e^{-3n/4}$.
+The dominant mechanism is a deterministic mass-shift term
+$-b\,e^{n/4}\|\psi\|_{L^2}^2$ arising from the unmollified field.
+
+We additionally analyzed the HKN separating set
+$A^{\alpha,\gamma}$~\cite{HKN24} and proved it does \emph{not}
+separate $\mu$ from $T_\psi^*\mu$: the smooth shift is absorbed
+into the regular remainder.  This analysis is absent from the
+official solution.
+
+\paragraph{Assessment.}
+Both proofs establish mutual singularity via a separating set, but
+with different regularization schemes (polynomial-in-$\log$ vs.\
+super-exponential).  The official proof is more self-contained; ours
+relies more on citing Hairer's note.  Our HKN failure analysis is a
+genuine contribution.
+
+\paragraph{Author feedback.}
+Hairer~\cite[\S4.1]{FirstProofSolutions2026}: ``The best solution
+produced during testing was by ChatGPT~5.2 Pro [\ldots] it
+essentially just quotes the content of [Hai22] without giving a
+detailed proof.''
+Our proof goes significantly beyond this by providing detailed
+verification and analyzing why the HKN framework fails.
+
+\medskip\noindent
+\textbf{Verdict:} \yes\ answer, \yes\ proof (different mechanism).
+\textbf{Correct with complete proof.}

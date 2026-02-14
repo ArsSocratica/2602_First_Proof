@@ -1,0 +1,60 @@
+% ============================================================
+\subsection{Problem 3: Markov chain for interpolation Macdonald polynomials}
+\label{sec:p03}
+
+\paragraph{Official solution (Ben Dali--Williams).}
+The official proof constructs the \emph{interpolation $t$-Push TASEP},
+a sophisticated discrete-time Markov chain with three steps per
+transition: ring a bell (select a position), activate particles
+clockwise, and displace via vacancy return.
+The proof uses classical and signed two-line queues with pair weights
+and ball weights, establishing stationarity via an analogue
+of~\cite[Theorem~4.18]{AMW25}.
+The key identity is
+$F^*_\nu(x;1,t) = \sum_\eta F^*_\eta(x;1,t)\,P(\eta,\nu)$:
+the $F^*$-polynomials are left eigenvectors of the transition matrix.
+The proof spans seven pages with detailed combinatorial machinery.
+
+\paragraph{Our solution.}
+We constructed the \emph{Hecke-Recursive Detailed Balance Chain},
+a continuous-time reversible Markov chain on the Cayley graph of~$S_n$.
+The construction uses three elementary ingredients:
+\begin{enumerate}[nosep]
+\item A product of shifted powers:
+  $w_\lambda = \prod_j (x_j - t^{1-j})^{\lambda_j}$.
+\item The Hecke operator $T_i$ (standard algebraic object).
+\item The Cayley graph of $S_n$ with generators $\{s_1, \ldots, s_{n-1}\}$.
+\end{enumerate}
+Transition rates are $r(\mu \to s_i\mu) = c_i \cdot w_{s_i\mu}(x;t)$,
+and stationarity follows from detailed balance (trivial by
+commutativity of the weight assignment).
+
+We proved the product formula
+$E^*_\lambda(x;q,t) = \prod_j \prod_{k=0}^{\lambda_j-1}
+(x_j - q^k t^{1-j})$
+via the Knop--Sahi vanishing characterization, with computational
+verification for $n = 2$ and $n = 3$.
+
+\paragraph{Assessment.}
+The constructions are completely different: the official uses a
+multi-step particle system; ours uses Hecke recursion with detailed
+balance.  Both are nontrivial in the required sense (transition rates
+not defined using $F^*_\mu$ or $P^*_\lambda$ directly).
+Our construction is arguably simpler but less connected to the
+combinatorial literature on multiline queues.
+The official commentary notes that LLMs gave Metropolis--Hastings
+(trivial) or confused the problem with the non-interpolation
+version---our construction avoids both pitfalls.
+
+\paragraph{Author feedback.}
+Williams~\cite[\S4.3]{FirstProofSolutions2026}: ``Both Gemini and
+ChatGPT produced Metropolis--Hastings chains'' (trivial, since they
+use the target distribution directly).  ``Gemini confused the problem
+with the non-interpolation version.''
+Our Hecke-recursive construction avoids both pitfalls and satisfies
+the nontriviality constraint.
+
+\medskip\noindent
+\textbf{Verdict:} \yes\ answer, \yes\ proof (genuinely different
+construction).
+\textbf{Correct with complete proof.}

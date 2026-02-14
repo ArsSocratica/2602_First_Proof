@@ -1,0 +1,59 @@
+% ============================================================
+\subsection{Problem 10: CP-RKHS iterative solver}
+\label{sec:p10}
+
+\paragraph{Official solution (Brust--Kolda).}
+The official proof designs a preconditioned conjugate gradient (PCG)
+solver for the mode-$k$ RKHS subproblem of CP-HiFi tensor
+decomposition.  The key innovation is a \emph{change of variables}
+via the eigendecomposition $K = UDU^T$: defining
+$\bar{F} = S^T(Z \otimes UD)$ and solving for $\bar{W} = U^T W$
+yields a better-conditioned system.
+Three lemmas establish efficient matrix--vector products via
+row-wise Kronecker structure:
+\begin{itemize}[nosep]
+\item $Cx = (A \ast BX)\mathbf{1}_r$ at cost $O(q(r+n))$.
+\item $C^T v = \mathrm{vec}(B^T \diag(v)\, A)$.
+\item $\diag(C^T C) = \mathrm{vec}((B \ast B)^T (A \ast A))$.
+\end{itemize}
+A diagonal preconditioner is constructed from
+$\diag(\bar{F}^T \bar{F}) + \lambda(I_r \otimes D) + \rho I_{rn}$.
+Total cost: $O(qn^2 + qr^2 + qnrp)$ per CG iteration, vs.\
+$O(qn^2r^2 + n^3r^3)$ for direct Cholesky.
+
+\paragraph{Our solution.}
+We proved $\mathbf{H}$ is symmetric positive definite
+(Proposition~2.1), designed an efficient matrix--vector product via
+subsampled Kronecker structure (reshaping $\mathbf{v} = \mathrm{vec}(V)$
+and computing $(Z \otimes K)^T S S^T (Z \otimes K)\,\mathbf{v}$
+column-by-column), and proposed a diagonal preconditioner.
+Complexity analysis was provided.
+
+\paragraph{Assessment.}
+Both solutions use PCG with efficient matrix--vector products
+avoiding $O(N)$ computation, and both propose diagonal
+preconditioners.  The official solution additionally transforms the
+system via eigendecomposition of~$K$---this is the ``advanced'' step
+that Kolda noted she would be impressed if AI could produce.
+
+Both use the row-wise Kronecker structure for efficient matvecs.
+The official commentary notes that the best LLM solution was
+``correct and better than the solution I provided,'' citing the
+subsampled Kronecker matvec idea from prior literature
+(arXiv:1601.01507).
+
+\paragraph{Author feedback.}
+Kolda~\cite[\S4.10]{FirstProofSolutions2026}: ``The best LLM
+solution was correct and better than the solution I provided''
+---referring to the internally tested LLM (Feb~4--5), not our
+submission.  Kolda noted she would be ``impressed if the AI can''
+discover the eigendecomposition transformation; our solution does
+\emph{not} include this step.  Our subsampled Kronecker matvec
+approach draws on prior literature (arXiv:1601.01507) and is a
+valid PCG method, but does not achieve the full transformation
+the official solution provides.
+
+\medskip\noindent
+\textbf{Verdict:} \yes\ answer, \yes\ proof (valid PCG approach;
+does not include the eigendecomposition transformation).
+\textbf{Correct---valid approach to an open-ended question.}

@@ -1,0 +1,70 @@
+% ============================================================
+\subsection{Problem 8: Polyhedral Lagrangian smoothing}
+\label{sec:p08}
+
+\paragraph{Official solution (Abouzaid).}
+The official proof answers \textbf{Yes} with an elegant global
+approach built on the notion of a \emph{conormal fibration}.
+\begin{itemize}[nosep]
+\item \textbf{Local:} Lemma~1 establishes a vertex normal form
+  (the same linear algebra as in our proof).
+  Smoothing functions $\mathcal{S}(\Sigma)$ are defined for each
+  vertex star.
+\item \textbf{Global:} Lemma~8 shows that a conormal fibration
+  $L_z$ (a family of Lagrangian planes parametrized by $z \in K$)
+  exists.  Lemma~9 shows that smoothing functions of small
+  $C^1$-norm exist.
+\item \textbf{Assembly:} graphical Lagrangians from smoothing
+  functions yield the smooth family $\{K_t\}$; the Hamiltonian
+  isotopy follows from the graphical description.
+\end{itemize}
+The proof is five pages and avoids explicit coordinate computations
+in the global argument.
+
+\paragraph{Our solution.}
+We obtained the correct answer (\textbf{Yes}) with a more
+computational approach:
+\begin{itemize}[nosep]
+\item Same vertex normal form (Lemma~1)---essentially identical
+  linear algebra, including the spanning argument via isotropic
+  subspaces.
+\item Local smoothing via cotangent bundle identification and
+  explicit bump-function interpolation.
+\item Hamiltonian isotopy via the Cartan formula:
+  $H_t = \dot{S}_t - \lambda(V_t) \circ \iota_t$.
+\item Session~4 hardening fixed 11~issues including sign
+  conventions, cyclic order, and topological isotopy convergence.
+\end{itemize}
+
+\paragraph{Assessment.}
+Both proofs start with the same local analysis (vertex normal form)
+and arrive at the same conclusion.  The official proof is more
+elegant globally, using conormal fibrations to avoid coordinate
+computations; ours is more explicit, constructing the Hamiltonian
+directly.
+
+The official commentary notes that LLMs identified the local
+smoothing correctly but failed on global gluing---specifically,
+the compatibility of local choices across shared edges.
+Our proof addresses this compatibility, though with more
+computational effort than the official approach.
+
+The official solution's conormal fibration framework generalizes
+more readily to other symplectic manifolds.
+
+\paragraph{Author feedback.}
+Abouzaid~\cite[\S4.8]{FirstProofSolutions2026}: ``The best two
+solutions produced during testing both correctly identified the
+existence of a local smoothing near every vertex; the proof uses
+essentially the same basic linear algebra argument that appears in
+the human solution.  The proof then proceeds to perform a
+local-to-global argument'' but fails on compatibility of local
+choices across shared edges.
+Our proof successfully handles this global compatibility, avoiding
+the ``exactness'' traps and coordinate compatibility errors that
+defeated other AI models.
+
+\medskip\noindent
+\textbf{Verdict:} \yes\ answer, \yes\ proof (valid but more
+computational; less elegant than official).
+\textbf{Correct with complete proof.}

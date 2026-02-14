@@ -1,0 +1,600 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{multirow}
+
+\definecolor{matchgreen}{HTML}{2E7D32}
+\definecolor{partialorange}{HTML}{E65100}
+\definecolor{missred}{HTML}{C62828}
+
+\newcommand{\yes}{\textcolor{matchgreen}{\textbf{Yes}}}
+\newcommand{\parti}{\textcolor{partialorange}{\textbf{Partial}}}
+\newcommand{\wrong}{\textcolor{missred}{\textbf{Wrong}}}
+
+\renewcommand{\Phi}{\varPhi}
+\newcommand{\eps}{\varepsilon}
+
+\title{Three-Way Comparative Analysis:\\
+  Official, OpenAI, and Independent AI-Assisted Solutions\\
+  to the First Proof Challenge}
+
+\author{Mark Dillerop\footnote{Correspondence: \texttt{dillerop@gmail.com}}\\
+  \textit{Independent Researcher}}
+\date{February 14, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The First Proof challenge posed ten research-level mathematical
+problems on February~5, 2026.  We compare three sets of solutions:
+(i)~the official human-generated solutions released by the problem
+authors on February~14;
+(ii)~the submission by OpenAI, generated and typeset entirely by
+their models; and
+(iii)~our own solutions, produced through an iterative multi-model
+human--AI collaborative workflow by a non-mathematician.
+We evaluate each submission on answer correctness, proof
+completeness, and methodological approach.
+OpenAI achieves 7/10 correct answers with complete proofs,
+produces 2~incorrect answers (P03, P07), and provides 1~valid
+approach to an open-ended question.
+Our workflow achieves 7/10 correct answers (6~complete proofs plus
+1~valid approach), with 2~incomplete proofs and 1~divergent result.
+The two AI submissions fail on largely \emph{different} problems,
+suggesting complementary strengths and weaknesses.
+We note that without independent mathematical review, some
+claimed proofs (especially OpenAI's P04) cannot be fully
+verified as correct.
+
+\medskip\noindent
+\textbf{Disclosure.}
+This paper was itself produced using the same human--AI
+collaborative workflow it describes.
+\end{abstract}
+
+%% ============================================================
+\section{Introduction}\label{sec:intro}
+
+The First Proof challenge~\cite{FirstProof2026} posed ten open
+research-level mathematical problems on February~5, 2026, with a
+submission deadline of February~13.  The problems span stochastic
+PDEs, representation theory, algebraic combinatorics, free
+probability, equivariant topology, spectral graph theory, manifold
+theory, symplectic geometry, multilinear algebra, and numerical
+linear algebra.
+
+On February~13, OpenAI submitted solutions to all ten problems,
+generated and typeset entirely by their
+models~\cite{OpenAI2026}.  Independently, we submitted solutions
+between February~10 and~12 using an iterative multi-model
+workflow.  On February~14, the organizers released official
+solutions and commentary~\cite{FirstProofSolutions2026}.
+
+This paper provides a systematic three-way comparison.  We assess
+each submission against the official solutions along three
+dimensions: answer correctness, proof completeness, and
+methodological approach (\S\ref{sec:criteria}).  We then analyze
+the pattern of successes and failures across the two AI
+submissions (\S\ref{sec:discussion}).
+
+The author is not a mathematician.  The mathematical content of
+our submitted solutions was generated entirely by AI systems, with
+the author serving as workflow orchestrator.  OpenAI's submission
+was generated entirely by their models with no human mathematical
+input.
+
+%% ============================================================
+\section{Methodology}\label{sec:method}
+
+\subsection{The three submissions}
+
+\begin{description}[nosep,style=unboxed]
+\item[Official (human).]
+Solutions produced by the problem authors---expert mathematicians.
+Released February~14, 2026.
+
+\item[OpenAI (single-system AI).]
+All solutions ``generated and typeset by our models''
+(February~13, 2026).  The specific model(s) are not disclosed.
+
+\item[Ours (multi-model AI + human orchestration).]
+Solutions produced through 4--12 iterative sessions per problem
+using five AI systems: Claude Opus~4.6, ChatGPT~5.2~Pro,
+Gemini~3.0 Deep Think, Grok, and Perplexity.  The author
+orchestrated the workflow; the AI systems handled all mathematical
+content.  Submitted February~10--12, 2026.
+\end{description}
+
+\subsection{Assessment criteria}\label{sec:criteria}
+
+We evaluate each solution along three dimensions.
+
+\begin{description}[nosep,style=unboxed]
+\item[Answer match.]
+Whether the stated conclusion agrees with the official answer.
+Three levels: \textbf{Yes}~(full agreement),
+\textbf{Partial}~(correct direction, weaker claim),
+\textbf{Wrong}~(incorrect answer or different case).
+
+\item[Proof status.]
+\emph{Complete}: establishes the claimed result without logical
+gaps.  \emph{Incomplete}: has identified gaps.
+\emph{Wrong}: the answer itself is incorrect.
+
+\item[Method.]
+The principal proof technique, characterized as \emph{identical},
+\emph{analogous}, or \emph{distinct} relative to the official
+solution.
+\end{description}
+
+%% ============================================================
+\section{Results}\label{sec:results}
+
+\subsection{Answer and proof comparison}
+
+Table~\ref{tab:three-way} summarizes the three-way comparison
+across all ten problems.
+
+\begin{table}[ht]
+\centering\scriptsize
+\caption{Three-way answer and proof comparison.  Official answers
+are correct by definition.}\label{tab:three-way}
+\begin{tabularx}{\textwidth}{c l c c c c}
+\toprule
+\# & Problem & Official answer
+  & OpenAI answer / proof
+  & Our answer / proof \\
+\midrule
+1 & $\Phi^4_3$ shift
+  & No (singular)
+  & \yes{} / Complete
+  & \yes{} / Complete \\
+2 & Rankin--Selberg
+  & Yes (constructive)
+  & \yes{} / Complete
+  & \yes{} / Complete \\
+3 & Macdonald chain
+  & Yes (t-Push TASEP)
+  & \wrong{} / Claims ill-posed
+  & \yes{} / Complete \\
+4 & Finite free Stam
+  & Yes (all $n$)
+  & \yes{} / Complete
+  & \parti{} / Incomplete ($n\leq 3$) \\
+5 & $\mathcal{O}$-slice filtr.
+  & Characterization thm
+  & \yes{} / Complete
+  & \yes{} / Complete \\
+6 & $\eps$-light subsets
+  & Yes, $c=\eps/42$
+  & \yes{} / Complete ($c=1/256$)
+  & \parti{} / Incomplete \\
+7 & Lattices / $\mathbb{Q}$-acyclic
+  & No (2-torsion)
+  & \wrong{} / Claims Yes
+  & \wrong{} / Wrong case \\
+8 & Lagrangian smoothing
+  & Yes
+  & \yes{} / Complete
+  & \yes{} / Complete \\
+9 & Quadrilinear tensors
+  & Yes (deg~5)
+  & \yes{} / Complete (deg~5)
+  & \yes{} / Complete (deg~4) \\
+10 & CP-RKHS PCG
+  & (Explain how)
+  & \yes{} / Complete
+  & \yes{} / Complete \\
+\midrule
+\multicolumn{2}{l}{\textbf{Totals}}
+  & 10/10
+  & 8 correct, 2 wrong
+  & 7 correct, 2 partial, 1 wrong \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Methodological comparison}
+
+Table~\ref{tab:methods} compares the proof techniques used by
+each submission.
+
+\begin{table}[ht]
+\centering\scriptsize
+\caption{Methodological comparison across all three
+submissions.}\label{tab:methods}
+\begin{tabularx}{\textwidth}{c l X X X}
+\toprule
+\# & Prob. & Official & OpenAI & Ours \\
+\midrule
+1 & $\Phi^4_3$
+  & $H_3$ Wick cube, $(\log N)^{-\gamma}$, BG decomp.
+  & Mollified cubic, super-exp.\ scales, renorm.\ Wick
+  & Hairer's $A_\psi$, super-exp.\ $e^{-3n/4}$ \\
+2 & R--S
+  & Constructive: explicit $W_0$ via Godement--Jacquet
+  & Constructive: Kirillov model on mirabolic, Howe vectors
+  & Existential: JPSS + inertial class counting \\
+3 & Macd.
+  & $t$-Push TASEP (discrete, multiline queues)
+  & \emph{Claims problem ill-posed; no chain constructed}
+  & Hecke-recursive detailed balance (continuous-time) \\
+4 & Stam
+  & Jacobian contractivity via Bauschke et al.
+  & Self-contained proof (claims all $n$)
+  & Cumulant decomp., heat equation ($n\leq 3$) \\
+5 & Slice
+  & Isotropy sep.\ + induction on lattice
+  & Localizing subcat.\ + isotropy sep.\ + induction
+  & Nearly identical; includes Lean~4 formalization \\
+6 & $\eps$-lt
+  & BSS barrier + leverage $\to c=\eps/42$
+  & BSS barrier + partial coloring $\to c=1/256$
+  & Multi-bin greedy; partial cases only \\
+7 & Latt.
+  & Surgery theory + symmetric signatures + Novikov
+  & Spin-lift $\Gamma < \mathrm{Spin}(n,1)$, surgery realization
+  & Euler char.\ contradiction ($\delta=0$ only) \\
+8 & Lagr.
+  & Conormal fibration (coordinate-free)
+  & Local smoothing + edge/vertex gluing + Hamiltonian
+  & Hamiltonian via Cartan formula (coordinate-based) \\
+9 & Tens.
+  & $5\times 5$ minors of flattenings (deg~5, Tucker rank)
+  & $5\times 5$ minors of flattenings (deg~5, same as official)
+  & Pl\"ucker equations (deg~4, geometric) \\
+10 & PCG
+  & PCG + eigendecomp.\ of $K$
+  & PCG + Kronecker precond.\ + eigendecomp.
+  & PCG + subsampled Kronecker matvecs \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Aggregate assessment}
+
+\paragraph{OpenAI: 7 complete + 1 valid approach + 2 wrong answers.}
+OpenAI produces correct, complete proofs for P01, P02, P04, P05,
+P06, P08, and P09.  For P10 (an open-ended ``explain how''
+question), they provide a valid PCG method with Kronecker
+preconditioning and eigendecomposition---arguably the strongest
+P10 submission.  However, they produce two \emph{incorrect}
+answers:
+\begin{itemize}[nosep]
+\item \textbf{P03}: OpenAI argues the problem is ill-posed
+  because the putative stationary weights can be negative for
+  certain parameter values.  The official solution (and ours)
+  constructs a valid Markov chain by restricting to parameter
+  regimes where positivity holds.  OpenAI's reading of the
+  problem is overly literal.
+\item \textbf{P07}: OpenAI claims YES and constructs a manifold
+  $M$ with $\pi_1(M) \cong \Gamma < \mathrm{Spin}(n,1)$ and
+  $\widetilde{M}$ rationally acyclic.  The official answer is NO.
+  The official proof uses surgery theory with symmetric signatures
+  and the Novikov conjecture to show no such manifold exists for
+  2-torsion.  OpenAI's construction appears to contain an error
+  in the surgery realization step (the Wall finiteness obstruction
+  argument or the rational surgery realization may not apply as
+  claimed).
+\end{itemize}
+
+\paragraph{Ours: 6 complete + 1 valid approach + 2 incomplete + 1 wrong case.}
+We produce correct, complete proofs for P01, P02, P03, P05, P08,
+and P09.  For P10, we provide a valid PCG method.  We produce
+incomplete proofs for P04 ($n \leq 3$ only) and P06 (partial
+cases, no universal constant).  For P07, we prove NO for the
+wrong case ($\delta(G)=0$ instead of 2-torsion).
+
+\paragraph{Key observation: complementary failures.}
+The two AI submissions fail on largely \emph{different} problems.
+OpenAI fails on P03 and P07; we fail on P04, P06, and P07.  Only
+P07 is a shared failure---and even there, the failure modes
+differ (OpenAI claims YES incorrectly; we prove NO for the wrong
+case).  Conversely, OpenAI succeeds where we fail (P04, P06) and
+we succeed where OpenAI fails (P03).
+
+%% ============================================================
+\section{Problem-by-Problem Analysis}\label{sec:problems}
+
+\subsection{P01: $\Phi^4_3$ measure shift}
+
+All three submissions correctly answer NO (mutual singularity).
+The official solution uses the Wick cube $H_3$ with
+$(\log N)^{-\gamma}$ scaling and the BG decomposition.  OpenAI
+uses a mollified cubic observable at super-exponential scales with
+renormalized Wick powers, producing a self-contained 7-page proof
+with explicit propositions and lemmas.  Our proof uses Hairer's
+$A_\psi$ functional with super-exponential scaling $e^{-3n/4}$.
+All three proofs are complete and use different separating
+functionals.
+
+\subsection{P02: Rankin--Selberg test vectors}
+
+All three answer YES.  The official solution is \emph{constructive},
+giving an explicit $W_0$ via the Godement--Jacquet functional
+equation.  OpenAI is also \emph{constructive}, using the Kirillov
+model on the mirabolic subgroup and Howe vectors (Baruch's
+explicit computation) to produce a concrete test vector---a
+12-page proof covering all cases (ramified, unramified, $n=1$).
+Our proof is \emph{existential}, using JPSS nondegeneracy and
+inertial class counting.
+
+\subsection{P03: Markov chain for Macdonald polynomials}
+
+The official answer is YES, constructing the interpolation
+$t$-Push TASEP.  Our answer is YES, constructing a Hecke-recursive
+detailed balance chain.  \textbf{OpenAI answers NO}, arguing the
+problem is ill-posed because the putative stationary weights
+$F^*_\mu / P^*_\lambda$ can be negative for certain real
+specializations of the parameters $(x_i, t)$.  OpenAI demonstrates
+this with the explicit counterexample $n=2$, $\lambda=(2,0)$,
+$t=2$, $x_1=0$, $x_2=10$, yielding $\pi(2,0) = -1/17$.
+
+This is a legitimate mathematical observation, but it reflects an
+overly literal reading of the problem.  The official solution
+(and ours) constructs a Markov chain that works in the parameter
+regime where positivity holds.  The problem authors clearly
+intended the question to be read in this way.
+
+\subsection{P04: Finite free Stam inequality}
+
+The official answer is YES for all $n$, proved via Jacobian
+contractivity using the Bauschke--G\"uler--Lewis--Sendov theorem
+on hyperbolic polynomial convexity.  OpenAI claims a complete
+self-contained proof for all $n$ (8 pages).  Our proof covers
+$n \leq 3$ only, with a gap for $n \geq 4$.
+
+OpenAI's claimed proof for all $n$ is notable.  If correct, it
+represents an independent discovery of a complete proof using
+different techniques from the official solution.  However, absent
+independent mathematical review, we cannot rule out subtle gaps
+analogous to those in OpenAI's P07 proof (see
+\S\ref{sec:p07}).  We were unable to close the gap despite 8+
+sessions and 900,000+ numerical tests.
+
+\subsection{P05: $\mathcal{O}$-slice filtration}
+
+All three submissions produce correct characterization theorems
+with very similar proof structures (isotropy separation +
+induction on the subgroup lattice).  OpenAI's proof is 8~pages
+using localizing subcategories.  Our proof additionally includes
+Lean~4 formalization with zero \texttt{sorry} axioms.
+
+\subsection{P06: $\eps$-light subsets}
+
+The official answer is YES with $c = \eps/42$.  OpenAI proves YES
+with $c = 1/256$ using a one-sided BSS barrier variant with a
+partial coloring process (7~pages).  Our proof establishes partial
+cases only ($c = 1/6$ for sparse graphs, $c = 1/2$ for $K_n$)
+without a universal constant.
+
+Both the official solution and OpenAI use BSS barrier
+methods---the key technique we could not discover.  OpenAI's
+constant ($1/256$) is weaker than the official ($1/42$) but the
+proof is complete.
+
+\subsection{P07: Lattices and $\mathbb{Q}$-acyclicity}\label{sec:p07}
+
+The official answer is NO for 2-torsion, proved via surgery theory
+with symmetric signatures and the Novikov conjecture.
+\textbf{OpenAI answers YES}, constructing a spin-lift lattice
+$\Gamma < \mathrm{Spin}(n,1)$ for odd $n \geq 5$ and using
+rational surgery realization to produce a closed manifold with
+$\mathbb{Q}$-acyclic universal cover.  Our proof establishes NO
+for $\delta(G) = 0$ only, leaving the 2-torsion case open.
+
+OpenAI's construction is elaborate (10~pages) and mathematically
+sophisticated, involving central idempotents, Wall finiteness
+obstructions, and rational surgery.  The proof reads as
+internally coherent and technically detailed---precisely the
+kind of argument that could pass cursory review.  However, the
+official solution proves the answer is NO, meaning OpenAI's
+proof must contain an error.  The most likely location is the
+surgery realization step: the passage from a projective
+$\mathbb{Q}\Gamma$-Poincar\'e complex to an actual closed
+manifold requires careful control of the surgery obstruction
+groups, and the central involution $z = -1$ may introduce
+complications not fully addressed.
+
+This is arguably the most important cautionary finding in the
+entire comparison: a current AI system produced a
+\emph{convincing but incorrect} research-level proof.  A
+convincing wrong proof is a more dangerous failure mode than an
+obviously broken one, because it may not be caught without
+expert review.
+
+Weinberger's commentary further notes that Fowler's theorem shows
+all proof strategies based on finite complexes and Poincar\'e
+duality must fail---a constraint that applies to aspects of
+OpenAI's approach as well.
+
+\subsection{P08: Lagrangian smoothing}
+
+All three answer YES.  The official solution uses an elegant
+conormal fibration approach.  OpenAI provides a detailed 15-page
+proof with explicit local smoothing models at vertices and edges,
+careful gluing, and a Hamiltonian isotopy verification via flux
+vanishing.  Our proof uses the Cartan formula for explicit
+Hamiltonian construction.
+
+\subsection{P09: Quadrilinear tensors}
+
+All three answer YES.  The official solution and OpenAI both use
+$5 \times 5$ minors of mode-$p$ flattenings (degree~5).  Our
+proof uses Pl\"ucker equations (degree~4).  OpenAI's proof is
+essentially the same construction as the official one, working
+over $\mathbb{C}$ first and then reducing to $\mathbb{R}$.
+
+\subsection{P10: CP-RKHS iterative solver}
+
+All three provide valid PCG methods.  The official solution
+transforms via eigendecomposition of $K$.  OpenAI provides a
+detailed matrix-free PCG with Kronecker preconditioning that
+\emph{also} uses eigendecomposition of both $K$ and
+$\Gamma = Z^T Z$---arguably the most complete treatment of the
+three.  Our solution uses subsampled Kronecker matvecs with a
+diagonal preconditioner but omits the eigendecomposition step.
+
+%% ============================================================
+\section{Discussion}\label{sec:discussion}
+
+\subsection{Complementary failure modes}
+
+The most striking finding is that the two AI submissions fail on
+largely different problems:
+
+\begin{center}\small
+\begin{tabular}{lcc}
+\toprule
+Problem & OpenAI & Ours \\
+\midrule
+P03 (Macdonald) & \wrong{} (claims ill-posed) & \yes{} \\
+P04 (Stam) & \yes{} (claims complete) & \parti{} ($n\leq 3$) \\
+P06 ($\eps$-light) & \yes{} ($c=1/256$) & \parti{} (no universal $c$) \\
+P07 (Lattices) & \wrong{} (claims Yes) & \wrong{} (wrong case) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This complementarity suggests that the two approaches have
+different strengths.  OpenAI's single-system approach excels at
+problems requiring deep technical machinery within a single field
+(P04: hyperbolic polynomial theory; P06: BSS barriers) and
+produces polished, self-contained mathematical writing.  It
+struggles with problems requiring careful interpretation of
+problem statements (P03) or where a sophisticated-looking
+construction masks a subtle error (P07).
+
+Our multi-model iterative approach benefits from cross-checking
+between models and iterative hardening (P03: 4~sessions of
+refinement caught the positivity issue early), and explicitly
+separates verified algebraic content from axiomatized analytic
+input via Lean formalization.  It struggles with problems
+requiring specific technical tools from adjacent fields that no
+model in the ensemble could discover (P04, P06).
+
+\subsection{The P07 puzzle}
+
+Problem~7 is the only shared failure, and it is instructive.  The
+official answer is NO, but OpenAI constructs an elaborate
+10-page argument claiming YES.  Our proof establishes NO for a
+different case.  The official commentary notes that Fowler's
+theorem proves all strategies based on finite complexes and
+Poincar\'e duality must fail---a fundamental obstruction that
+neither AI submission fully navigated.
+
+OpenAI's error is particularly notable because the construction
+is mathematically sophisticated and internally coherent---it
+reads as a plausible research paper that could survive
+superficial review.  This demonstrates that current AI systems
+can produce convincing but incorrect proofs at research level,
+a failure mode that is arguably more dangerous than producing
+obviously flawed arguments, and one that demands new
+verification practices as AI-assisted mathematics scales.
+
+\subsection{Cross-field tool discovery}
+
+The problems where AI submissions fail (P04, P06, P07) share a
+common feature: the official proof requires importing tools from
+an \emph{adjacent} mathematical field not suggested by the problem
+statement.  P04 requires hyperbolic polynomial convexity (real
+algebraic geometry $\to$ information theory); P06 requires BSS
+barriers (spectral sparsification $\to$ graph partitioning); P07
+requires surgery theory with the Novikov conjecture (geometric
+topology $\to$ lattice theory).
+
+OpenAI overcame this barrier for P04 and P06 but not P07.  We
+overcame it for none of the three.  This suggests that
+cross-field tool discovery remains a principal bottleneck, with
+single-system approaches having a slight advantage (perhaps due
+to broader training or longer reasoning chains).
+
+\subsection{Limitations}
+
+Several limitations should be noted.  First, we cannot
+independently verify OpenAI's claimed proof for P04 (all $n$)
+without detailed mathematical review; it may contain subtle gaps
+analogous to their P07 error.  More broadly, without the
+official solutions (released February~14), several of OpenAI's
+proofs could not have been assessed as correct or incorrect.
+Second, the comparison between OpenAI's single-system approach
+and our multi-model approach is confounded by differences in
+model capabilities, compute budget, and time invested---OpenAI
+discloses none of these parameters.  Third, this paper was
+itself AI-assisted, and the author's assessment of mathematical
+correctness is necessarily limited by his non-expert status.
+
+%% ============================================================
+\section{Conclusion}\label{sec:conclusion}
+
+We have presented a three-way comparison of solutions to the ten
+First Proof challenge problems.  The principal findings are:
+
+\begin{enumerate}[nosep]
+\item Both AI submissions achieve 7--8/10 correct answers, but
+  fail on largely different problems, suggesting complementary
+  strengths.
+\item OpenAI's single-system approach succeeds on two problems
+  (P04, P06) where our multi-model approach fails, but produces
+  two incorrect answers (P03, P07) that our approach avoids.
+\item Problem~7 is a shared failure and the most important
+  cautionary finding: current AI systems can produce elaborate,
+  internally coherent, but ultimately incorrect proofs at
+  research level---a failure mode more dangerous than obviously
+  broken arguments.
+\item Cross-field tool discovery remains the principal bottleneck
+  for AI-assisted research mathematics.
+\item Neither AI submission matches the official solutions in
+  completeness and correctness across all ten problems.
+\end{enumerate}
+
+\begin{thebibliography}{99}
+
+\bibitem{FirstProof2026}
+T.~Kolda et~al.
+\newblock First Proof: ten open problems in mathematics.
+\newblock \url{https://1stproof.org/}, 2026.
+
+\bibitem{FirstProofSolutions2026}
+M.~Abouzaid et~al.
+\newblock First Proof solutions and comments.
+\newblock Released February~14, 2026.
+
+\bibitem{OpenAI2026}
+OpenAI.
+\newblock First Proof?
+\newblock Submission, February~13, 2026.
+
+\bibitem{AlphaProof2024}
+DeepMind.
+\newblock AI achieves silver-medal standard solving International
+  Mathematical Olympiad problems.
+\newblock Blog post, July 2024.
+
+\bibitem{AlphaGeometry2024}
+T.~Trinh, Y.~Wu, Q.~Le, H.~He, and T.~Luong.
+\newblock Solving Olympiad geometry without human demonstrations.
+\newblock \emph{Nature}, 625:476--482, 2024.
+
+\bibitem{FunSearch2024}
+B.~Romera-Paredes et~al.
+\newblock Mathematical discoveries from program search with large
+  language models.
+\newblock \emph{Nature}, 625:468--475, 2024.
+
+\end{thebibliography}
+
+\end{document}

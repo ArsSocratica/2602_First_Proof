@@ -1,0 +1,61 @@
+% ============================================================
+\subsection{Problem 9: Quadrilinear determinantal tensors}
+\label{sec:p09}
+
+\paragraph{Official solution (Miao--Lerman--Kileel).}
+The official proof answers \textbf{Yes} by taking $\mathbf{F}$ to be
+the collection of all $5 \times 5$ minors of the four
+$3n \times 27n^3$ matrix flattenings of the block tensor~$Q$.
+The key observation is a Tucker decomposition
+$Q = C \times_1 A \times_2 A \times_3 A \times_4 A$ with
+$C_{abcd} = \mathrm{sgn}(abcd)$ (Lemma~1), giving multilinear rank
+$\le (4,4,4,4)$, so all $5 \times 5$ minors of any flattening vanish.
+The ``only if'' direction uses a three-step argument: normalize
+$\lambda$ so that $\lambda_{\alpha 111} = \lambda_{1\beta 11}
+= \cdots = 1$, then show that $\lambda$ entries with two ones equal
+some constant~$c$, with one one equal~$c^2$, and with zero ones
+equal~$c^3$---hence $\lambda$ is rank-1.
+Genericity is verified computationally (random numerical instances).
+
+\paragraph{Our solution.}
+We constructed a different polynomial map $\mathbf{F}$ consisting of
+six families of Pl\"ucker equations $\mathcal{P}_{pq}$, one for each
+pair of positions $\{p,q\} \subset \{1,2,3,4\}$.
+Each equation has degree~4 (vs.\ degree~5 for the official minors).
+\begin{itemize}[nosep]
+\item \textbf{Necessity:} the Pl\"ucker identity plus rank-1
+  $\lambda$ gives factorization of each equation.
+\item \textbf{Sufficiency:} factorization into
+  $\Lambda_P \cdot (\Lambda_{S_1} - \Lambda_{S_2}) \cdot
+  [Q\text{-bracket}]$; genericity via explicit witness cameras.
+\item Numerically verified for $n = 5, 6$.
+\end{itemize}
+
+\paragraph{Assessment.}
+Both constructions are valid polynomial maps satisfying all three
+required properties (independence from~$A$, bounded degree, rank-1
+characterization for generic~$A$).
+The official approach is more natural from the tensor decomposition
+perspective (Tucker rank); ours is more geometric (Pl\"ucker
+relations on determinantal varieties).
+
+Our degree bound (4) is tighter than the official (5), which is a
+minor advantage.
+The official commentary notes that the best LLM answer was
+``essentially correct'' using the same $5 \times 5$ minors
+approach---our Pl\"ucker approach is a genuinely different
+alternative.
+
+\paragraph{Author feedback.}
+Kileel~\cite[\S4.9]{FirstProofSolutions2026}: ``The best answer was
+essentially correct''---using the same $5 \times 5$ minors approach
+as the official solution.
+Our Pl\"ucker-elimination approach is a genuinely different
+alternative with a tighter degree bound (4 vs.\ 5), providing an
+independent verification from a geometric rather than
+tensor-algebraic perspective.
+
+\medskip\noindent
+\textbf{Verdict:} \yes\ answer, \yes\ proof (alternative
+construction with tighter degree bound).
+\textbf{Correct with complete proof.}
