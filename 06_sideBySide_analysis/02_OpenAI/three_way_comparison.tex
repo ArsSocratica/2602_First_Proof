@@ -51,8 +51,10 @@ completeness, and methodological approach.
 OpenAI achieves 7/10 correct answers with complete proofs,
 produces 2~incorrect answers (P03, P07), and provides 1~valid
 approach to an open-ended question.
-Our workflow achieves 7/10 correct answers (6~complete proofs plus
-1~valid approach), with 2~incomplete proofs and 1~divergent result.
+Our workflow achieves 7/10 correct answers (5~complete proofs plus
+1~valid approach), with 1~correct answer supported by an incorrect
+proof (confirmed by the problem author), 2~incomplete proofs, and
+1~divergent result.
 The two AI submissions fail on largely \emph{different} problems,
 suggesting complementary strengths and weaknesses.
 We note that without independent mathematical review, some
@@ -161,7 +163,7 @@ are correct by definition.}\label{tab:three-way}
 1 & $\Phi^4_3$ shift
   & No (singular)
   & \yes{} / Complete
-  & \yes{} / Complete \\
+  & \yes{} / \textcolor{missred}{\textbf{Incorrect}} (Hairer) \\
 2 & Rankin--Selberg
   & Yes (constructive)
   & \yes{} / Complete
@@ -202,7 +204,7 @@ are correct by definition.}\label{tab:three-way}
 \multicolumn{2}{l}{\textbf{Totals}}
   & 10/10
   & 8 correct, 2 wrong
-  & 7 correct, 2 partial, 1 wrong \\
+  & 6 correct, 1 incorrect proof, 2 partial, 1 wrong \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -291,12 +293,15 @@ answers:
   claimed).
 \end{itemize}
 
-\paragraph{Ours: 6 complete + 1 valid approach + 2 incomplete + 1 wrong case.}
-We produce correct, complete proofs for P01, P02, P03, P05, P08,
-and P09.  For P10, we provide a valid PCG method.  We produce
-incomplete proofs for P04 ($n \leq 3$ only) and P06 (partial
-cases, no universal constant).  For P07, we prove NO for the
-wrong case ($\delta(G)=0$ instead of 2-torsion).
+\paragraph{Ours: 5 complete + 1 valid approach + 1 correct answer
+with incorrect proof + 2 incomplete + 1 wrong case.}
+We produce correct, complete proofs for P02, P03, P05, P08,
+and P09.  For P10, we provide a valid PCG method.  For P01, we
+correctly answered NO but Hairer and Gubinelli have confirmed
+that our proof is incorrect (see \S\ref{sec:p01-analysis}).
+We produce incomplete proofs for P04 ($n \leq 3$ only) and P06
+(partial cases, no universal constant).  For P07, we prove NO
+for the wrong case ($\delta(G)=0$ instead of 2-torsion).
 
 \paragraph{Key observation: complementary failures.}
 The two AI submissions fail on largely \emph{different} problems.
@@ -309,7 +314,7 @@ we succeed where OpenAI fails (P03).
 %% ============================================================
 \section{Problem-by-Problem Analysis}\label{sec:problems}
 
-\subsection{P01: $\Phi^4_3$ measure shift}
+\subsection{P01: $\Phi^4_3$ measure shift}\label{sec:p01-analysis}
 
 All three submissions correctly answer NO (mutual singularity).
 The official solution uses the Wick cube $H_3$ with
@@ -318,8 +323,24 @@ uses a mollified cubic observable at super-exponential scales with
 renormalized Wick powers, producing a self-contained 7-page proof
 with explicit propositions and lemmas.  Our proof uses Hairer's
 $A_\psi$ functional with super-exponential scaling $e^{-3n/4}$.
-All three proofs are complete and use different separating
-functionals.
+
+\textbf{However, Hairer and Gubinelli have confirmed that our
+proof is incorrect.}  Hairer (February~15, 2026): ``The proof is
+definitely not correct: for example the first non-trivial
+statement, namely `The renormalized cubic is $O(1)$', is wrong.''
+In the $\Phi^4_3$ setting, the Wick-ordered cube $:u^3:$ is a
+distribution in a negative Sobolev/Besov regularity space
+(roughly $\mathcal{C}^{-1/2-\varepsilon}$), not a bounded
+function.
+
+Gubinelli further observed that the models misidentified the
+mechanism of the proof (fixating on mass renormalization, which
+was chosen for convenience) and that our own Section~7 correctly
+notes that the variance of the renormalized cube
+diverges---directly contradicting the Section~6 claim that it
+is~$O(1)$.  The models generated both the correct fact and the
+incorrect claim in different sections of the same document
+without recognizing the contradiction.
 
 \subsection{P02: Rankin--Selberg test vectors}
 
@@ -461,6 +482,7 @@ largely different problems:
 \toprule
 Problem & OpenAI & Ours \\
 \midrule
+P01 ($\Phi^4_3$) & \yes{} (complete) & \textcolor{missred}{\textbf{Incorrect}} (Hairer) \\
 P03 (Macdonald) & \wrong{} (claims ill-posed) & \yes{} \\
 P04 (Stam) & \yes{} (claims complete) & \parti{} ($n\leq 3$) \\
 P06 ($\eps$-light) & \yes{} ($c=1/256$) & \parti{} (no universal $c$) \\
@@ -544,19 +566,23 @@ We have presented a three-way comparison of solutions to the ten
 First Proof challenge problems.  The principal findings are:
 
 \begin{enumerate}[nosep]
-\item Both AI submissions achieve 7--8/10 correct answers, but
+\item Both AI submissions achieve 6--8/10 correct answers, but
   fail on largely different problems, suggesting complementary
   strengths.
 \item OpenAI's single-system approach succeeds on two problems
   (P04, P06) where our multi-model approach fails, but produces
   two incorrect answers (P03, P07) that our approach avoids.
-\item Problem~7 is a shared failure and the most important
-  cautionary finding: current AI systems can produce elaborate,
-  internally coherent, but ultimately incorrect proofs at
-  research level---a failure mode more dangerous than obviously
-  broken arguments.
-\item Cross-field tool discovery remains the principal bottleneck
-  for AI-assisted research mathematics.
+\item Problems~1 and~7 demonstrate the most important cautionary
+  finding: current AI systems can produce elaborate, superficially
+  coherent, but ultimately incorrect proofs at research level.
+  For P01, the error was only caught by the problem author
+  (Hairer) and his collaborator (Gubinelli); for P07, OpenAI's
+  10-page construction reaches the wrong answer.  These failure
+  modes are more dangerous than obviously broken arguments.
+\item Two principal bottlenecks emerge: (a)~cross-field tool
+  discovery (P04, P06, P07), and (b)~domain-specific regularity
+  blindness---generating plausible but false claims about the
+  technical properties of mathematical objects (P01).
 \item Neither AI submission matches the official solutions in
   completeness and correctness across all ten problems.
 \end{enumerate}

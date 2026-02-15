@@ -35,20 +35,57 @@ into the regular remainder.  This analysis is absent from the
 official solution.
 
 \paragraph{Assessment.}
-Both proofs establish mutual singularity via a separating set, but
+Both proofs target mutual singularity via a separating set, but
 with different regularization schemes (polynomial-in-$\log$ vs.\
-super-exponential).  The official proof is more self-contained; ours
-relies more on citing Hairer's note.  Our HKN failure analysis is a
-genuine contribution.
+super-exponential).  However, Hairer has confirmed that our proof
+is \textbf{incorrect} (see below).
 
 \paragraph{Author feedback.}
 Hairer~\cite[\S4.1]{FirstProofSolutions2026}: ``The best solution
 produced during testing was by ChatGPT~5.2 Pro [\ldots] it
 essentially just quotes the content of [Hai22] without giving a
 detailed proof.''
-Our proof goes significantly beyond this by providing detailed
-verification and analyzing why the HKN framework fails.
+
+\paragraph{Direct feedback from Hairer on our submission
+(February~15, 2026).}
+``I had a look at your answer to Q1.  The proof is definitely not
+correct: for example the first non-trivial statement, namely `The
+renormalized cubic is $O(1)$', is wrong.''
+
+\noindent
+In the $\Phi^4_3$ setting, the Wick-ordered cube $:u^3:$ is a
+distribution living in a negative Sobolev/Besov regularity space
+(roughly $\mathcal{C}^{-1/2-\varepsilon}$), not a bounded function.
+Claiming it is $O(1)$ is a fundamental misunderstanding of the
+regularity of the objects involved, and this error invalidates the
+proof from its first substantive step.  This is a stark illustration
+of how AI-generated proofs can produce statements that sound
+reasonable but are false in the specific regularity regime of the
+problem---and how a non-expert orchestrator cannot catch such errors.
+
+\paragraph{Additional feedback from Gubinelli (February~15, 2026).}
+``Besides the problem highlighted by Hairer, it seems the models
+induced themselves into believing that the regularisation of the mass
+term was the key point (Section~6 in the solution PDF) which is
+actually irrelevant (in the original note it was chosen like so for
+convenience reasons).  In Section~7 there is a (correct) remark that
+the variance of the renormalised cube actually diverges, which is
+not-consistent with the model's belief that the renormalised cube
+is~$O(1)$.''
+
+\noindent
+This reveals a deeper structural problem: the AI models not only made
+a false claim about regularity, but also \textbf{misidentified the
+mechanism} of the proof.  They fixated on the mass renormalization
+term as the key driver of singularity, when in fact it was chosen for
+convenience in Hairer's original note and is not the essential
+ingredient.  Worse, the models' own Section~7 contains a correct
+observation (divergent variance of~$:u^3:$) that directly contradicts
+their Section~6 claim ($:u^3:$ is~$O(1)$)---the models failed to
+notice this internal inconsistency in their own proof.
 
 \medskip\noindent
-\textbf{Verdict:} \yes\ answer, \yes\ proof (different mechanism).
-\textbf{Correct with complete proof.}
+\textbf{Verdict:} \yes\ answer,
+\textcolor{missred}{\textbf{incorrect proof}}
+(Hairer and Gubinelli confirm fundamental errors).
+\textbf{Correct answer, wrong proof.}

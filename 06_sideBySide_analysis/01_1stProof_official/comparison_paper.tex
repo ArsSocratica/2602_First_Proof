@@ -53,14 +53,16 @@ within the eight-day competition window.  This paper provides a
 systematic comparison with the official human-generated solutions
 released on February~14, 2026.  We define formal assessment
 criteria, apply them to each problem, and report the following
-outcomes: six problems received correct answers with complete
+outcomes: five problems received correct answers with complete
 (though often methodologically distinct) proofs; one received a
-valid approach to an open-ended question; two received correct
-answers with incomplete proofs; and one addressed a different case
-than the one asked.  We analyze the failure modes, compare our
-outputs with single-prompt LLM baselines from the organizers'
-internal testing, and identify cross-field tool discovery as the
-principal bottleneck for AI-assisted mathematical research.
+valid approach to an open-ended question; one received a correct
+answer with an incorrect proof (confirmed by the problem author);
+two received correct answers with incomplete proofs; and one
+addressed a different case than the one asked.  We analyze the
+failure modes, compare our outputs with single-prompt LLM baselines
+from the organizers' internal testing, and identify two principal
+bottlenecks: cross-field tool discovery and domain-specific
+regularity blindness.
 
 \medskip\noindent
 \textbf{Disclosure.}  This paper was itself produced using the
@@ -227,7 +229,7 @@ incomplete, or addresses the wrong case
 1 & $\Phi^4_3$ shift
   & No (singular)
   & No (singular)
-  & \yes & Complete \\
+  & \yes & \textcolor{missred}{\textbf{Incorrect}} (Hairer) \\
 2 & Rankin--Selberg
   & Yes (constructive)
   & Yes (existential)
@@ -315,8 +317,8 @@ incomplete, or addresses the wrong case
 Applying the criteria of \S\ref{sec:criteria}, we classify the
 ten outcomes into four categories.
 
-\paragraph{Complete proof with correct answer (6/10).}
-Problems P01, P02, P03, P05, P08, and P09.  In each case, our
+\paragraph{Complete proof with correct answer (5/10).}
+Problems P02, P03, P05, P08, and P09.  In each case, our
 proof reaches the correct conclusion via a valid argument, though
 the proof technique often differs substantially from the official
 solution (Table~\ref{tab:approaches}).  Of note: P05 nearly
@@ -336,6 +338,16 @@ matrix~$K$, yielding better conditioning.  Kolda~\cite[\S4.10]{FirstProofSolutio
 noted that the best internally tested LLM solution was ``correct
 and better'' than her provided solution; this refers to the
 organizers' internal LLM testing, not to our submission.
+
+\paragraph{Correct answer, incorrect proof (1/10).}
+Problem P01 (Hairer): We correctly answered NO (the measures are
+mutually singular), but Martin Hairer (the problem author) has
+confirmed that our proof is incorrect.  Specifically, the first
+non-trivial claim---that the renormalized cubic is $O(1)$---is
+wrong.  In the $\Phi^4_3$ setting, the Wick-ordered cube $:u^3:$
+is a distribution living in a negative Sobolev/Besov regularity
+space, not a bounded quantity.  This invalidates the proof from
+its first substantive step.
 
 \paragraph{Correct direction, incomplete proof (2/10).}
 \begin{itemize}[nosep]
@@ -388,7 +400,7 @@ must fail for this problem---exactly the approach we employed.
 
 \subsection{Strengths of the AI-assisted approach}
 
-In six of ten problems, the iterative multi-model workflow
+In five of ten problems, the iterative multi-model workflow
 produced complete, correct proofs.  Several of these exhibit
 methodological independence from the official solutions:
 P03 constructs a Hecke-recursive chain rather than a
@@ -400,17 +412,14 @@ suggests that the AI systems are not merely reproducing known
 approaches but can synthesize novel proof strategies within
 a given mathematical field.
 
-For P01, our proof includes an analysis of why the HKN
-set~\cite{HKN24} fails to support the $\Phi^4_3$ measure---a
-contribution absent from the official solution.
-
 \subsection{Failure mode analysis}
 
-The three problems with incomplete or divergent results
-(P04, P06, P07) share a common structural feature: the
-official proof requires importing a specific tool from an
-\emph{adjacent} mathematical field that is not suggested by
-the problem statement itself.
+The four problems with incorrect, incomplete, or divergent
+results (P01, P04, P06, P07) reveal two distinct failure modes.
+The first is \textbf{cross-field tool discovery}.  Three problems
+share a common structural feature: the official proof requires
+importing a specific tool from an \emph{adjacent} mathematical
+field that is not suggested by the problem statement itself.
 
 \begin{itemize}[nosep]
 \item \textbf{P04} required the Bauschke--G\"uler--Lewis--Sendov
@@ -425,12 +434,31 @@ the problem statement itself.
   cobordism) applied to a question about lattice topology.
 \end{itemize}
 
-This pattern suggests that \textbf{cross-field tool discovery}
-is the principal bottleneck for current AI systems in
-research-level mathematics.  The models excelled at deep
-exploration within a single mathematical field but could not
-make the non-obvious connections between fields that
-characterize expert mathematical insight.
+This pattern suggests that cross-field tool discovery
+is one principal bottleneck for current AI systems in
+research-level mathematics.
+
+The second failure mode is illustrated by P01:
+\textbf{domain-specific regularity blindness}.  Hairer
+confirmed that our proof's first non-trivial statement---that
+the renormalized cubic is $O(1)$---is wrong.  The Wick-ordered
+cube in $\Phi^4_3$ is a distribution in a negative regularity
+space, not a bounded function.  This error is characteristic of
+AI systems generating plausible-sounding mathematical statements
+that are false in the specific technical regime of the problem.
+Critically, a non-expert orchestrator has no way to catch such
+errors, and the AI systems themselves did not flag the claim as
+problematic during cross-checking.  Gubinelli further observed
+that the models misidentified the mechanism of the proof
+(fixating on mass renormalization, which was chosen for
+convenience) and that the models' own Section~7 correctly notes
+that the variance of the renormalized cube diverges---directly
+contradicting the Section~6 claim that it is~$O(1)$.  The models
+generated both the correct fact and the incorrect claim in
+different sections of the same document without recognizing the
+contradiction.  This represents a failure mode that is arguably
+more dangerous than the cross-field discovery gap, because the
+proof reads as superficially coherent.
 
 \subsection{Comparison with single-prompt LLM baselines}
 
@@ -505,29 +533,31 @@ solutions to the ten First Proof challenge problems with the
 official human-generated solutions.  The principal findings are:
 
 \begin{enumerate}[nosep]
-\item Six of ten problems received correct answers with
+\item Five of ten problems received correct answers with
   complete proofs, often via methodologically distinct
   approaches.
-\item The three incomplete or divergent results share a common
-  failure mode: the official proof required importing tools
-  from an adjacent mathematical field not suggested by the
-  problem statement.
+\item The four problematic results reveal two failure modes:
+  (a)~cross-field tool discovery (P04, P06, P07), and
+  (b)~domain-specific regularity blindness---generating
+  plausible but false claims about the technical properties
+  of mathematical objects (P01).
 \item Iterative multi-model collaboration avoided the failure
   modes observed in single-prompt LLM baselines, but did not
-  overcome the cross-field discovery bottleneck.
+  overcome either bottleneck.
 \item A non-expert human operator can orchestrate AI systems
-  to produce research-level mathematical proofs, but the
-  quality ceiling is determined by the AI systems' ability
-  to discover non-obvious cross-field connections.
+  to produce research-level mathematical proofs, but cannot
+  independently verify correctness.  The P01 error was only
+  caught by the problem author himself.
 \end{enumerate}
 
 An initial automated review categorized 8/10 of our solutions
 as correct or superior.  On critical re-examination against the
-official solutions, this assessment is inflated: the honest
-count is 6/10 complete, 1/10 valid approach, 2/10 incomplete,
-and 1/10 divergent.  We report this discrepancy as a cautionary
-note on the reliability of AI self-assessment in mathematical
-contexts.
+official solutions and direct author feedback, this assessment
+is significantly inflated: the honest count is 5/10 complete,
+1/10 valid approach, 1/10 incorrect proof (correct answer),
+2/10 incomplete, and 1/10 divergent.  We report this discrepancy
+as a cautionary note on the reliability of AI self-assessment in
+mathematical contexts.
 
 %% ============================================================
 \begin{thebibliography}{99}
