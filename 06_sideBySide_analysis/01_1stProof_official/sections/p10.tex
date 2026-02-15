@@ -26,15 +26,20 @@ We proved $\mathbf{H}$ is symmetric positive definite
 (Proposition~2.1), designed an efficient matrix--vector product via
 subsampled Kronecker structure (reshaping $\mathbf{v} = \mathrm{vec}(V)$
 and computing $(Z \otimes K)^T S S^T (Z \otimes K)\,\mathbf{v}$
-column-by-column), and proposed a diagonal preconditioner.
+entry-by-entry for observed indices), and proposed a complete-data
+Kronecker preconditioner $\mathbf{P} = \Gamma \otimes K^2 + \lambda(I_r \otimes K)$
+with simultaneous Kronecker-diagonalizable structure.
 Complexity analysis was provided.
 
 \paragraph{Assessment.}
 Both solutions use PCG with efficient matrix--vector products
-avoiding $O(N)$ computation, and both propose diagonal
-preconditioners.  The official solution additionally transforms the
-system via eigendecomposition of~$K$---this is the ``advanced'' step
-that Kolda noted she would be impressed if AI could produce.
+avoiding $O(N)$ computation.  The official solution uses a diagonal
+preconditioner after an eigendecomposition change of variables;
+our solution uses a complete-data Kronecker preconditioner with
+simultaneous diagonalization in the Kronecker eigenbasis.
+The official solution's eigendecomposition transformation is the
+``advanced'' step that Kolda noted she would be impressed if AI
+could produce.
 
 Both use the row-wise Kronecker structure for efficient matvecs.
 The official commentary notes that the best LLM solution was

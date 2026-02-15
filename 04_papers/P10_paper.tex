@@ -214,7 +214,7 @@ Reshape $\bv = \vect(V)$ where $V \in \R^{n \times r}$. By the mixed-product pro
 
 \subsection{Term 1: The Selection-Kronecker Product}
 
-This is the critical computation. We break it into four steps.
+This is the critical computation. The core idea---computing a subsampled Kronecker product matvec without forming the full product---is an instance of the generalized vec trick of Airola and Pahikkala~\cite{AP17}. We specialize their framework to our setting where only row selection (via~$S^T$) is needed, and break it into four steps.
 
 \medskip\noindent\textbf{Step 1: Forward map --- compute $\bu = S^T (Z \otimes K) \bv$.}
 
@@ -621,6 +621,13 @@ H.~Wendland,
 \textit{Scattered Data Approximation},
 Cambridge University Press, 2004.
 Theorem~4.20: Gaussian RBF kernel is strictly positive definite on distinct points.
+
+\bibitem{AP17}
+A.~Airola and T.~Pahikkala,
+``Fast Kronecker product kernel methods via generalized vec trick,''
+\textit{IEEE Trans.\ Neural Netw.\ Learn.\ Syst.}\ \textbf{29}(12) (2017), 5977--5988.
+arXiv:1601.01507.
+Theorem~1, Algorithm~1: Generalized vec trick for subsampled Kronecker product matvecs.
 
 \bibitem{RR07}
 A.~Rahimi and B.~Recht,

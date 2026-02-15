@@ -52,7 +52,7 @@ $$(I_r \otimes K) \operatorname{vec}(V) = \operatorname{vec}(KV).$$
 
 ### 3.2. Term 1: The Selection-Kronecker Product
 
-This is the critical computation. We break it into four steps.
+This is the critical computation. The core idea — computing a subsampled Kronecker product matvec without forming the full product — is an instance of the generalized vec trick of Airola and Pahikkala [AP17, Theorem 1]. We break it into four steps, specialized to our setting where only row selection (via $S^T$) is needed.
 
 **Step 1: Forward map — compute $\mathbf{u} = S^T (Z \otimes K) \mathbf{v}$.**
 
@@ -315,5 +315,6 @@ The algebraic and arithmetic skeleton of this solution has been formally verifie
 - [KB09] T. G. Kolda and B. W. Bader, *Tensor decompositions and applications*, SIAM Rev. **51**(3) (2009), 455–500. — §2.6: Kronecker product properties; §3: CP decomposition.
 - [LKZW24] B. W. Larsen, T. G. Kolda, A. R. Zhang, and A. H. Williams, *Tensor Decomposition Meets RKHS: Efficient Algorithms for Smooth and Misaligned Data*, arXiv:2408.05677, 2024. — §4.2, §5.2: Incomplete data subproblems; Eq. 42: The linear system.
 - [Mic06] C. A. Micchelli, *Interpolation of scattered data: Distance matrices and conditionally positive definite functions*, Constr. Approx. **2** (1986), 11–22. See also: H. Wendland, *Scattered Data Approximation*, Cambridge University Press, 2004, Theorem 4.20.
+- [AP17] A. Airola and T. Pahikkala, *Fast Kronecker product kernel methods via generalized vec trick*, IEEE Trans. Neural Netw. Learn. Syst. **29**(12) (2017), 5977–5988. arXiv:1601.01507. — Theorem 1, Algorithm 1: Generalized vec trick for subsampled Kronecker product matvecs. Our §3.2 forward/adjoint decomposition is a special case of their framework with column index matrix $C = I$.
 - [RR07] A. Rahimi and B. Recht, *Random features for large-scale kernel machines*, NeurIPS, 2007.
 - [Saa03] Y. Saad, *Iterative Methods for Sparse Linear Systems*, 2nd ed., SIAM, 2003. — §9.4: Preconditioned CG convergence theory.
