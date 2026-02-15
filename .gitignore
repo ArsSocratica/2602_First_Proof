@@ -51,9 +51,11 @@
 
 # ---- 06: Side-by-side analysis ----
 !06_sideBySide_analysis/
+!06_sideBySide_analysis/*.md
 !06_sideBySide_analysis/*/
 !06_sideBySide_analysis/*/*.tex
 !06_sideBySide_analysis/*/*.pdf
+!06_sideBySide_analysis/*/*.md
 !06_sideBySide_analysis/*/sections/
 !06_sideBySide_analysis/*/sections/*.tex
 
