@@ -222,13 +222,34 @@ Note: ‖K²‖ = ‖K‖² holds because K is PSD (spectral norm of K² = σ_ma
 
 This confirms the comparison doc `p10.tex` is wrong when it says "diagonal preconditioner."
 
-### Verified: arXiv:1601.01507 prior art attribution
+### Verified: arXiv:1601.01507 prior art attribution (FULL PAPER READ)
 
 **Claim (Kolda §4.10):** The subsampled Kronecker matvec idea exists in arXiv:1601.01507.
 
-**Verification:** Paper is Airola & Pahikkala (2016), "Fast Kronecker product kernel methods via generalized vec trick," published in IEEE TNNLS 2017. The abstract confirms it generalizes efficient Kronecker computations from complete to non-complete (subsampled) data — the same core idea as our Step 1/Step 3 decomposition.
+**Verification:** Read the full LaTeX source of Airola & Pahikkala (2016), "Fast Kronecker product kernel methods via generalized vec trick," IEEE TNNLS 2017.
 
-**Limitation:** Could not read the full PDF to verify the specific algorithm matches ours step-for-step. Citation is justified based on abstract + Kolda's explicit statement, but a human should spot-check the algorithm comparison.
+**Their Theorem 1:** Compute R(M⊗N)C^T v in O(min(a·|v|+d·|u|, c·|v|+b·|u|)) time, where R and C are row/column index (selection) matrices of the Kronecker product M⊗N.
+
+**Algorithm-level correspondence:**
+
+| Airola & Pahikkala (Alg. 1) | Our P10 (§3.2) |
+|---|---|
+| M = kernel matrix | K = kernel matrix |
+| N = second factor | Z = Khatri-Rao product |
+| R = row selection matrix | S^T = selection matrix (observed entries) |
+| C = column selection (general) | I (identity — we select rows only) |
+| Compute NV or VM^T first | Precompute P = KV |
+| Inner products for selected entries | u_ω = P(i_k,:) · z_{j(ω)} |
+
+**Our P10 is a special case** of their general algorithm where C = I (only row subselection). The core idea — using the vec trick on a *subsampled* Kronecker product to avoid forming the full N-entry matrix — is identical.
+
+**What our P10 adds beyond their work:**
+1. The grouping-by-i_k optimization for the adjoint (exploiting shared mode-k indices)
+2. The complete-data Kronecker preconditioner P = Γ⊗K² + λ(I_r⊗K)
+3. The spectral analysis showing κ(P⁻¹H) is independent of N and q
+4. The specific application to CP-RKHS tensor decomposition with missing data
+
+**Conclusion:** Citation is **justified and necessary**. The subsampled Kronecker matvec is prior art; our preconditioner and spectral analysis are genuinely new contributions.
 
 ### NOT verified (beyond scope of automated audit)
 
@@ -244,7 +265,7 @@ This confirms the comparison doc `p10.tex` is wrong when it says "diagonal preco
 | Risk | Severity | Mitigation |
 |------|----------|------------|
 | Comparison doc `p10.tex` describes our preconditioner as "diagonal" (incorrect — independently verified it is Kronecker-diagonalizable) | LOW | Fix the description in `06_sideBySide_analysis/01_1stProof_official/sections/p10.tex` line 29 |
-| Missing citation: arXiv:1601.01507 (Kolda identified this as prior art; abstract confirmed relevant) | MEDIUM | Add citation to proof.md and P10_paper.tex. Human should verify specific algorithm match. |
+| Missing citation: arXiv:1601.01507 (full paper read — our matvec is a special case of their Theorem 1) | **HIGH** | Add citation to proof.md and P10_paper.tex immediately. Our core matvec idea is prior art. |
 | No eigendecomposition transformation (Kolda's "advanced" step) | LOW | Not required for validity; note as potential v2 improvement |
 | Lean 4 compilation not re-verified during audit | LOW | Run `lake build` to confirm |
 
@@ -253,7 +274,7 @@ This confirms the comparison doc `p10.tex` is wrong when it says "diagonal preco
 ## Recommendations
 
 1. **Fix p10.tex comparison description:** Change "diagonal preconditioner" to "complete-data Kronecker preconditioner" in `06_sideBySide_analysis/01_1stProof_official/sections/p10.tex` line 29. (Independently verified our preconditioner is Kronecker-diagonalizable.)
-2. **Add missing citation:** Add arXiv:1601.01507 (Airola & Pahikkala, "Fast Kronecker product kernel methods via generalized vec trick," IEEE TNNLS 2017) to both `proof.md` and `P10_paper.tex`. Human should read §3 of that paper to verify the specific algorithm overlap before citing.
+2. **Add missing citation (HIGH priority):** Add arXiv:1601.01507 (Airola & Pahikkala, "Fast Kronecker product kernel methods via generalized vec trick," IEEE TNNLS 2017) to both `proof.md` and `P10_paper.tex`. Full paper verified: our subsampled Kronecker matvec (§3.2) is a special case of their Theorem 1 / Algorithm 1 with C = I. Our novel contributions (preconditioner, spectral analysis, CP-RKHS application) should be clearly distinguished from the prior art.
 3. **Re-run Lean verification:** Run `lake build` on `FirstProof/P10_PreconditionedCG.lean` to confirm it still compiles with 0 errors, 0 sorrys.
 4. **Consider v2 improvement:** Incorporate the eigendecomposition transformation K = UDU^T from the official solution to improve conditioning. This is the step Kolda said she'd be "impressed" to see from AI.
 
@@ -265,4 +286,4 @@ This confirms the comparison doc `p10.tex` is wrong when it says "diagonal preco
 |------|--------|----|
 | 2026-02-15 | Initial P10 audit (cross-doc, coherence, structural checks) | Cascade |
 | 2026-02-15 | Added independent mathematical re-derivations (spectral bounds, Kronecker dims, preconditioner structure) | Cascade |
-| 2026-02-15 | Verified arXiv:1601.01507 attribution via abstract; noted limitation (full PDF unreadable) | Cascade |
+| 2026-02-15 | Full verification of arXiv:1601.01507: read LaTeX source, confirmed our matvec is special case of their Theorem 1. Upgraded citation risk to HIGH. | Cascade |
