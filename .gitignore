@@ -23,6 +23,8 @@
 !02_proofs/*/
 !02_proofs/*/proof.md
 !02_proofs/*/transcript.md
+!02_proofs/*/v1/
+!02_proofs/*/v1/*.md
 
 # ---- 03: Lean 4 source ----
 !03_lean/
@@ -35,6 +37,9 @@
 !04_papers/*.tex
 !04_papers/*.pdf
 !04_papers/*.md
+!04_papers/v1/
+!04_papers/v1/*.tex
+!04_papers/v1/*.pdf
 
 # ---- 05: Lean formalization paper ----
 !05_lean_formalization/
