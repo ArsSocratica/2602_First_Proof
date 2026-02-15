@@ -84,6 +84,29 @@ observation (divergent variance of~$:u^3:$) that directly contradicts
 their Section~6 claim ($:u^3:$ is~$O(1)$)---the models failed to
 notice this internal inconsistency in their own proof.
 
+\paragraph{Further comment from Gubinelli.}
+``I have now seen several `solutions' doing this.  Also, they all
+take as gospel the choice $\varepsilon_n = e^{-e^n}$ when this was
+really just a way of saying `I don't want to have to think about
+whether I can apply Borel--Cantelli'\ldots''
+
+\noindent
+This confirms a systematic pattern across multiple independent AI
+systems: \textbf{cargo-cult proof construction}.  The models
+reproduce the surface features of Hairer's note---specific formulas
+like $\varepsilon_n = e^{-e^n}$ and the mass regularization
+scheme---without understanding \emph{why} those choices were made.
+The super-exponential mollification scale was chosen purely so that
+Borel--Cantelli applies trivially without needing to optimize the
+summability rate; it is not a mathematically essential feature of
+the proof.  The models consistently anchor on the most syntactically
+prominent technical details and elevate them to essential status,
+while missing the actual mathematical content.  That multiple
+independent AI systems all make the same error in the same way
+suggests a fundamental limitation: an inability to distinguish
+between \textbf{essential structure} and \textbf{convenient
+implementation choices} in a proof.
+
 \medskip\noindent
 \textbf{Verdict:} \yes\ answer,
 \textcolor{missred}{\textbf{incorrect proof}}
