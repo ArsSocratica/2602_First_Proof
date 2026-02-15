@@ -347,7 +347,50 @@ For proofs with numerical verification (P04, P06):
 3. Is the numerical tolerance appropriate for the claim?
 4. Could floating-point errors mask a counterexample?
 
-## 22. Part C summary
+## 22. Cross-field creativity audit
+
+**Why:** Cross-field tool discovery is the #1 failure mode we identified. P04 required hyperbolic
+polynomial theory from real algebraic geometry applied to information theory. P06 required BSS
+barrier functions from spectral sparsification. P07 required surgery theory with symmetric
+signatures and the Novikov conjecture. In each case, the AI stayed within the "home field" of
+the problem and never found the cross-field tool that unlocked the solution.
+
+For each problem:
+1. **What field does the problem live in?** (e.g., P04: finite free probability / information theory)
+2. **What field does the official solution draw from?** (e.g., P04: real algebraic geometry —
+   Bauschke–Güler–Lewis–Sendov theorem on hyperbolic polynomial convexity)
+3. **Did our proof attempt any cross-field exploration?** Check the proof and transcript for:
+   - References to papers/tools outside the problem's home field
+   - Explicit statements like "we considered X but it didn't apply"
+   - Evidence of searching for connections to other areas
+4. **Did our proof stay entirely within one field?** If YES: flag as SINGLE-FIELD
+5. **Was the cross-field insight findable?** Could the AI have reasonably discovered it by:
+   - Following citation chains from the problem statement
+   - Searching for the key mathematical objects in other contexts
+   - Recognizing structural analogies (e.g., "this looks like a convexity problem")
+
+**Known cross-field gaps** (from official commentary):
+
+| Problem | Home Field | Cross-Field Tool (Official) | Our Approach | Gap? |
+|---------|-----------|---------------------------|-------------|------|
+| P01 | Stochastic PDE / Φ⁴₃ | (same field — regularity theory) | Cargo-cult reproduction | YES — regularity blindness |
+| P02 | Automorphic forms | (same field — Godement-Jacquet) | JPSS + inertial classes | NO — valid alternative |
+| P03 | Combinatorics / Macdonald | (same field — multiline queues) | Hecke recursion | NO — valid alternative |
+| P04 | Finite free probability | Real algebraic geometry (hyperbolic polynomials) | Cumulant decomposition | YES — never found BGLS |
+| P05 | Equivariant homotopy | (same field — Hill-Yarnall) | Same approach | NO |
+| P06 | Spectral graph theory | Spectral sparsification (BSS barriers) | Multi-bin greedy | YES — never found BSS |
+| P07 | Lattice topology | Surgery theory (symmetric signatures, Novikov) | Euler characteristic only | YES — never found surgery |
+| P08 | Symplectic geometry | (same field — conormal fibrations) | Generating functions | PARTIAL — different but valid |
+| P09 | Algebraic geometry / tensors | (same field — flattenings) | Plücker equations | NO — valid alternative |
+| P10 | Numerical linear algebra | (same field — Kronecker structure) | Subsampled Kronecker | NO |
+
+For each problem, assess:
+- **Cross-field creativity**: HIGH (explored multiple fields) / MEDIUM (some exploration) / LOW (stayed in home field)
+- **Cross-field necessity**: Was a cross-field insight REQUIRED for a complete proof, or was an
+  in-field approach sufficient?
+- **Discovery pathway**: If a cross-field tool was needed, what search strategy could have found it?
+
+## 23. Part C summary
 
 For each problem, record:
 - **Assumption match**: EXACT / WEAKER / STRONGER / DIFFERENT
@@ -356,10 +399,12 @@ For each problem, record:
 - **Direction of proof**: CORRECT / SUSPICIOUS
 - **Local-global compatibility**: N/A / VERIFIED / ASSERTED
 - **Numerical verification**: N/A / ADEQUATE / GAPS: [list]
+- **Cross-field creativity**: HIGH / MEDIUM / LOW
+- **Cross-field necessity**: REQUIRED / HELPFUL / NOT NEEDED
 
 ---
 
-# Step 23: Generate Audit Report
+# Step 24: Generate Audit Report
 
 After completing all checks, create a formal audit report at:
 `06_sideBySide_analysis/audit_report.md`
@@ -414,12 +459,12 @@ The report MUST follow this exact template:
 
 ## Part C: Structural Verification
 
-| Problem | Assumption Match | Hard Step | Hypotheses Used | Direction | Local-Global | Numerical |
-|---------|-----------------|-----------|-----------------|-----------|-------------|-----------|
-| P01 | EXACT/WEAKER/... | PROVED/WAVED | ALL/UNUSED:... | OK/SUSP | N/A/OK/... | N/A/OK/... |
-| P02 | | | | | | |
-| ... | | | | | | |
-| P10 | | | | | | |
+| Problem | Assumption Match | Hard Step | Hypotheses Used | Direction | Local-Global | Numerical | Cross-Field |
+|---------|-----------------|-----------|-----------------|-----------|-------------|-----------|-------------|
+| P01 | EXACT/WEAKER/... | PROVED/WAVED | ALL/UNUSED:... | OK/SUSP | N/A/OK/... | N/A/OK/... | LOW/MED/HIGH |
+| P02 | | | | | | | |
+| ... | | | | | | | |
+| P10 | | | | | | | |
 
 ---
 
@@ -429,15 +474,47 @@ The report MUST follow this exact template:
 - **Current status:** Correct answer, incorrect proof
 - **Expert feedback:** Hairer (regularity error), Gubinelli (wrong mechanism, self-contradiction, cargo-cult)
 - **Audit findings:** [detailed findings]
+- **Cross-field analysis:**
+  - Home field: [field]
+  - Official solution field: [field]
+  - Our approach field: [field]
+  - Cross-field exploration attempted: YES/NO — [details]
+  - Cross-field insight required: YES/NO
+  - Discovery pathway (if missed): [how could the AI have found it?]
 - **Recommendation:** [SAFE / NEEDS EXPERT REVIEW / LIKELY FLAWED]
 
 ### P02: Rankin–Selberg
-[repeat for each problem]
+[repeat for each problem, including cross-field analysis]
 
 ...
 
 ### P10: CP-RKHS PCG
-[repeat for each problem]
+[repeat for each problem, including cross-field analysis]
+
+---
+
+## Cross-Field Discovery Summary
+
+This section summarizes the AI's ability to find tools from adjacent mathematical fields.
+
+| Problem | Home Field | Tool Needed From | Found? | Proof Complete? |
+|---------|-----------|-----------------|--------|----------------|
+| P01 | Stochastic PDE | (same — regularity) | NO | NO |
+| P02 | Automorphic forms | (same) | YES | YES |
+| P03 | Combinatorics | (same) | YES | YES |
+| P04 | Finite free probability | Real algebraic geometry | NO | NO |
+| P05 | Equivariant homotopy | (same) | YES | YES |
+| P06 | Spectral graph theory | Spectral sparsification | NO | NO |
+| P07 | Lattice topology | Surgery theory | NO | NO |
+| P08 | Symplectic geometry | (same) | YES | YES |
+| P09 | Algebraic geometry | (same) | YES | YES |
+| P10 | Numerical linear algebra | (same) | YES | YES |
+
+**Pattern:** [Summarize — e.g., "All 4 incomplete/incorrect proofs required cross-field insights
+that the AI failed to discover. All 6 complete proofs used tools from the problem's home field."]
+
+**Implication for v2 updates:** [Which proofs could be improved by incorporating cross-field tools?
+What search strategies should be tried?]
 
 ---
 
