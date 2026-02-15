@@ -8,6 +8,9 @@
 
 # ---- Allow build config ----
 !.gitignore
+!.windsurf/
+!.windsurf/workflows/
+!.windsurf/workflows/*.md
 !README.md
 !lakefile.toml
 !lean-toolchain
